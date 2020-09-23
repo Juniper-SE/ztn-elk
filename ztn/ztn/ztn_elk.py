@@ -51,8 +51,67 @@ def create_address(address):
     return response.ok, addr_id
 
 
-def create_application():
-    pass
+def create_application(servicename, dstport, srcport):
+    url = sd_base_url + sd_service_uri
+
+    random_id = str(uuid.uuid4().fields[-1])[:5]
+    protocol_types = {
+        'tcp': 'PROTOCOL_TCP',
+        'udp': 'PROTOCOL_UDP',
+        'icmp': 'PROTOCOL_ICMP',
+        'sun_rpc': 'PROTOCOL_SUN_RPC',
+        'ms_rpc': 'PROTOCOL_MS_RPC',
+        'icmpv6': 'PROTOCOL_ICMPV6',
+        'other': 'PROTOCOL_OTHER'
+    }
+
+    if servicename == "None":
+        return
+    elif servicename in protocol_types:
+        protocol_type = protocol_types[servicename]
+    else:
+        protocol_type = protocol_types["other"]
+
+    payload = json.dumps({
+        "service": {
+            "is-group": False,
+            "name": "SER_ZTN_ELK_" + random_id,
+            "description": "service created by ZTN-ELK",
+            "application-services": "",
+            "protocols": {
+                "protocol": [{
+                    "name": "term1",
+                    "description": "first term",
+                    "protocol-type": protocol_type,
+                    "dst-port": dstport,
+                    "enable-timeout": "false",
+                    "inactivity-timeout": "",
+                    "inactivity-time-type": "",
+                    "alg": "None",
+                    "src-port": srcport,
+                    "disable-timeout": "false",
+                    "rpc-program-number": "",
+                    "sunrpc-program-tcp": "",
+                    "sunrpc-program-type": "",
+                    "uuid": "",
+                    "msrpc-program-tcp": "",
+                    "msrpc-program-type": "",
+                    "enable-alg": "false",
+                    "icmp-code": "0",
+                    "icmp-type": "0"
+                }]
+            }
+        }
+    })
+
+    # payload = {}
+    response = requests.request(
+        "POST", url, headers=headers, data=payload, verify=False)
+
+    print(pretty_json(response.text))
+
+    json_obj = json.loads(response.text)
+    return response.ok
 
 
 def create_policy():
