@@ -68,7 +68,7 @@ def create_application(servicename, dstport, srcport):
     if servicename == "None":
         print("none man")
         return
-    elif servicename in protocol_types:
+    elif servicename in protocol_types.keys():
         protocol_type = protocol_types[servicename]
         print("got service type")
     else:
