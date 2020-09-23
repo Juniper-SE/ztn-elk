@@ -12,13 +12,6 @@ sd_address_uri = "/api/juniper/sd/address-management/addresses"
 sd_service_uri = "/api/juniper/sd/service-management/services"
 sd_policy_uri = "/api/juniper/sd/policy-management/firewall/policies"
 
-# Global variables
-headers = {
-    'Content-Type': 'application/vnd.juniper.sd.address-management.address+json;version=1;charset=UTF-8',
-    'Accept': 'application/vnd.juniper.sd.address-management.address+json;version=1;q=0.01',
-    'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
-}
-
 
 def pretty_json(text):
     return json.dumps(json.loads(text), indent=2)
@@ -26,6 +19,12 @@ def pretty_json(text):
 
 def create_address(address):
     url = sd_base_url + sd_address_uri
+
+    headers = {
+        'Content-Type': 'application/vnd.juniper.sd.address-management.address+json;version=1;charset=UTF-8',
+        'Accept': 'application/vnd.juniper.sd.address-management.address+json;version=1;q=0.01',
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+    }
 
     random_id = str(uuid.uuid4().fields[-1])[:5]
     payload = json.dumps({
@@ -54,6 +53,12 @@ def create_address(address):
 
 def create_application(servicename, dstport, srcport):
     url = sd_base_url + sd_service_uri
+
+    headers = {
+        'Content-Type': 'application/vnd.juniper.sd.address-management.address+json;version=1;charset=UTF-8',
+        'Accept': 'application/vnd.juniper.sd.address-management.address+json;version=1;q=0.01',
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+    }
 
     random_id = str(uuid.uuid4().fields[-1])[:5]
     protocol_types = {
@@ -117,16 +122,22 @@ def create_application(servicename, dstport, srcport):
 def create_policy():
     url = sd_base_url + sd_policy_uri
 
+    headers = {
+        'Content-Type': 'application/vnd.juniper.sd.policy-management.firewall.policy+json;version=2;charset=UTF-8',
+        'Accept': 'application/vnd.juniper.sd.policy-management.firewall.policy+json;version=2;q=0.02',
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+    }
+
     random_id = str(uuid.uuid4().fields[-1])[:5]
     payload = json.dumps({
         "policy": {
             "name": "ZTN_ELK_POLICY_" + random_id,
             "description": "Policy crated using ZTN_ELK",
             "policy-type": "GROUP",
-            "showDevicesWithoutPolicy": False,
+            "showDevicesWithoutPolicy": 'false',
             "policy-position": "PRE",
-            "manage-zone-policy": True,
-            "manage-global-policy": True,
+            "manage-zone-policy": 'true',
+            "manage-global-policy": 'true',
             "ips-mode": "NONE",
             "fwPolicy-type": "TRADITIONAL"
         }
