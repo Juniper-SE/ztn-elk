@@ -10,6 +10,7 @@ ecs_base_url = "http://172.16.30.142:9200"  # elasticsearch ip
 sd_base_url = "https://172.25.125.101"     # security director ip/port
 sd_address_uri = "/api/juniper/sd/address-management/addresses"
 sd_service_uri = "/api/juniper/sd/service-management/services"
+sd_policy_uri = "/api/juniper/sd/policy-management/firewall/policies"
 
 # Global variables
 headers = {
@@ -66,16 +67,13 @@ def create_application(servicename, dstport, srcport):
     }
 
     if servicename == "None":
-        print("none man")
         return
     elif servicename in protocol_types.keys():
         protocol_type = protocol_types[servicename]
-        print("got service type")
     else:
         protocol_type = protocol_types["other"]
-        print("other")
 
-    payload = {
+    payload = json.dumps({
         "service": {
             "is-group": False,
             "name": "SER_ZTN_ELK_" + random_id,
@@ -105,8 +103,7 @@ def create_application(servicename, dstport, srcport):
                 }]
             }
         }
-    }
-    print(json.loads(payload))
+    })
 
     # payload = {}
     response = requests.request(
@@ -117,7 +114,29 @@ def create_application(servicename, dstport, srcport):
 
 
 def create_policy():
-    pass
+    url = sd_base_url + sd_policy_uri
+
+    random_id = str(uuid.uuid4().fields[-1])[:5]
+    payload = json.dumps({
+        "policy": {
+            "name": "ZTN_ELK_POLICY_" + random_id,
+            "description": "Policy crated using ZTN_ELK",
+            "policy-type": "GROUP",
+            "showDevicesWithoutPolicy": False,
+            "policy-position": "PRE",
+            "manage-zone-policy": True,
+            "manage-global-policy": True,
+            "ips-mode": "NONE",
+            "fwPolicy-type": "TRADITIONAL"
+        }
+    })
+
+    # payload = {}
+    response = requests.request(
+        "POST", url, headers=headers, data=payload, verify=False)
+
+    print(pretty_json(response.text))
+    return response.ok
 
 
 def create_rule():

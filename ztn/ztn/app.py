@@ -16,7 +16,7 @@ def index():
         destzone = request.args.get("destzone")
 
         ztn_elk.create_application(servicename, destport, srcport)
-
+        ztn_elk.create_policy()
         return render_template("index.html", test_addr=srcaddr)
     except:
         return render_template("index.html")
