@@ -109,8 +109,6 @@ def create_application(servicename, dstport, srcport):
         "POST", url, headers=headers, data=payload, verify=False)
 
     print(pretty_json(response.text))
-
-    json_obj = json.loads(response.text)
     return response.ok
 
 
