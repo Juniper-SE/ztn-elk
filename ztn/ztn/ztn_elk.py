@@ -109,7 +109,7 @@ def create_application(servicename, dstport, srcport):
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    print("Create application:" + response.status_code)
+    print("Create application:" + str(response.status_code))
 
     return response.ok
 
@@ -136,7 +136,7 @@ def create_policy():
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    print("Create policy:" + response.status_code)
+    print("Create policy:" + str(response.status_code))
 
     return response.ok
 
