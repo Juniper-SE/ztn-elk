@@ -17,9 +17,9 @@ def index():
     except:
         pass
 
-    ztn_elk.create_application(servicename, destport, srcport)
+    #ztn_elk.create_application(servicename, destport, srcport)
 
-    return render_template("index.html", test_addr=srcaddr)
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
