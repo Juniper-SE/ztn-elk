@@ -14,12 +14,14 @@ def index():
         servicename = request.args.get("servicename")
         srczone = request.args.get("srczone")
         destzone = request.args.get("destzone")
+
+        ztn_elk.create_application(servicename, destport, srcport)
+
+        return render_template("index.html", test_addr=srcaddr)
     except:
-        pass
+        return render_template("index.html")
 
-    #ztn_elk.create_application(servicename, destport, srcport)
-
-    return render_template("index.html")
+    # return render_template("index.html")
 
 
 if __name__ == "__main__":
