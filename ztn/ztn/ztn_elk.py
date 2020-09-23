@@ -75,7 +75,7 @@ def create_application(servicename, dstport, srcport):
         protocol_type = protocol_types["other"]
         print("other")
 
-    payload = json.dumps({
+    payload = {
         "service": {
             "is-group": False,
             "name": "SER_ZTN_ELK_" + random_id,
@@ -105,7 +105,8 @@ def create_application(servicename, dstport, srcport):
                 }]
             }
         }
-    })
+    }
+    print(json.loads(payload))
 
     # payload = {}
     response = requests.request(
