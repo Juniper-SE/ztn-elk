@@ -7,7 +7,8 @@ app = Flask(__name__, template_folder="../templates")
 @app.route('/')
 def index():
     print(request.args)
-    # srcaddr = str(request.args.get("srcaddr"))
+    args = request.args
+    srcaddr = str(args['srcaddr'])
     # srcport = str(request.args.get("srcport"))
     # destaddr = str(request.args.get("destaddr"))
     # destport = str(request.args.get("destport")
