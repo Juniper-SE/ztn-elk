@@ -1,0 +1,32 @@
+<html>
+
+<head>
+    <title>Junos Space Security Director Form</title>
+</head>
+
+<body>
+    Please confirm the security policy and rule that will be sent to Junos Space Security Director.
+    <hr />
+
+    {% if test_addr %}
+    {{ test_addr }}
+
+    {% endif %}
+
+    <form>
+        Name: <input type="text" placeholder="Please enter a policy name." />
+        <br />
+        Description: <input type="text" size="50" placeholder="Policy created using ZTN - ELK" />
+        <br />
+        Type:
+        <input type="radio" id="group" name="policy-type" value="GROUP" checked>
+        <label for="group">Group policy</label>
+        <br />
+        &emsp;&emsp;&ensp;<input type="radio" id="device" name="policy-type" value="DEVICE">
+        <label for="device">Device policy</label>
+        <br />
+        This policy will be applied to all firewall devices.
+    </form>
+</body>
+
+</html>
