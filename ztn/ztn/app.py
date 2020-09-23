@@ -15,8 +15,8 @@ def index():
     srczone = str(args['srczone'])
     destzone = str(args['destzone'])
 
-    # ztn_elk.create_application(servicename, destport, srcport)
-    # ztn_elk.create_policy()
+    ztn_elk.create_application(servicename, destport, srcport)
+    ztn_elk.create_policy()
     return render_template("index.html")
 
     # return render_template("index.html")
