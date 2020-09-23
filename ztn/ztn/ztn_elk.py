@@ -66,11 +66,14 @@ def create_application(servicename, dstport, srcport):
     }
 
     if servicename == "None":
+        print("none man")
         return
     elif servicename in protocol_types:
         protocol_type = protocol_types[servicename]
+        print("got service type")
     else:
         protocol_type = protocol_types["other"]
+        print("other")
 
     payload = json.dumps({
         "service": {
