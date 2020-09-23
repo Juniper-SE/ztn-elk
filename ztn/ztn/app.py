@@ -15,8 +15,17 @@ def index():
     srczone = str(args['srczone'])
     destzone = str(args['destzone'])
 
-    ztn_elk.create_application(servicename, destport, srcport)
-    ztn_elk.create_policy()
+    c_a = ztn_elk.create_address(srcaddr)
+    if c_a:
+        print("Created address")
+    c_app = ztn_elk.create_application(servicename, destport, srcport)
+    if c_app:
+        print("created applicaiton")
+
+    c_p = ztn_elk.create_policy()
+    if c_p:
+        print("created policy")
+
     return render_template("index.html")
 
     # return render_template("index.html")
