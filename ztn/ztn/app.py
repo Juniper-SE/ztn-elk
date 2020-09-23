@@ -6,20 +6,17 @@ app = Flask(__name__, template_folder="../templates")
 
 @app.route('/')
 def index():
-    try:
-        srcaddr = request.args.get("srcaddr")
-        srcport = request.args.get("srcport")
-        destaddr = request.args.get("destaddr")
-        destport = request.args.get("destport")
-        servicename = request.args.get("servicename")
-        srczone = request.args.get("srczone")
-        destzone = request.args.get("destzone")
+    srcaddr = request.args.get("srcaddr")
+    srcport = request.args.get("srcport")
+    destaddr = request.args.get("destaddr")
+    destport = request.args.get("destport")
+    servicename = request.args.get("servicename")
+    srczone = request.args.get("srczone")
+    destzone = request.args.get("destzone")
 
-        ztn_elk.create_application(servicename, destport, srcport)
-        ztn_elk.create_policy()
-        return render_template("index.html", test_addr=srcaddr)
-    except:
-        return render_template("index.html")
+    ztn_elk.create_application(servicename, destport, srcport)
+    ztn_elk.create_policy()
+    return render_template("index.html")
 
     # return render_template("index.html")
 
