@@ -139,9 +139,9 @@ def create_policy():
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    policy = json.loads(response.text)['policy']
+    policy_id = json.loads(response.text)['policy']['id']
 
-    return response.ok, policy
+    return response.ok, policy_id
 
 
 def get_rule_groupid(policy_id):
@@ -259,8 +259,7 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id):
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    rule = json.loads(response.text)
-    return response.ok, rule
+    return response.ok
 
 
 def create_unified_rule():
