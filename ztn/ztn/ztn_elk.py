@@ -43,11 +43,8 @@ def create_address(address):
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    print(pretty_json(response.text))
+    addr_id = json.loads(response.text)['address']['id']
 
-    json_obj = json.loads(response.text)
-    addr_id = json_obj['address']['id']
-    print(addr_id)
     return response.ok, addr_id
 
 
@@ -114,8 +111,6 @@ def create_application(servicename, dstport, srcport):
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    print("Create application:" + str(response.status_code))
-
     return response.ok
 
 
@@ -147,10 +142,86 @@ def create_policy():
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    print("Create policy:" + str(response.status_code))
+    policy_id = json.loads(response.text)['policy']['id']
+    print(policy_id)
 
-    return response.ok
+    return response.ok, policy_id
 
 
 def create_rule():
     pass
+
+#     {
+# 	"rule": {
+# 		"rule-group-type": "CUSTOM",
+# 		"rule-profile": {
+# 			"profile-type": "INHERITED",
+# 			"user-defined-profile": {},
+# 			"custom-profile": {
+# 				"web-redirect": false,
+# 				"tcp-syn-check": false,
+# 				"infranet-redirect": "NONE",
+# 				"destination-address-translation": "NONE",
+# 				"redirect": "NONE",
+# 				"web-redirect-to-https": false,
+# 				"authentication-type": "NONE",
+# 				"service-offload": false,
+# 				"tcp-seq-check": false
+# 			}
+# 		},
+# 		"rule-order": 0,
+# 		"ips-enabled": false,
+# 		"policy-id": 229716,
+# 		"destination-address": {
+# 			"exclude-list": false,
+# 			"addresses": {
+# 				"address-reference": [{
+# 					"id": 196608
+# 				}]
+# 			}
+# 		},
+# 		"version": 2,
+# 		"rule-type": "RULE",
+# 		"vpn-tunnel-refs": {},
+# 		"disabled": false,
+# 		"rule-group-id": 229715,
+# 		"scheduler": {},
+# 		"services": {
+# 			"service-reference": [{
+# 				"id": 163840,
+# 				"is-group": false
+# 			}]
+# 		},
+# 		"action": "PERMIT",
+# 		"sec-intel-policy": {},
+# 		"custom-column-data": "",
+# 		"description": "created using automation",
+# 		"sourceidentities": {},
+# 		"destination-zone": {
+# 			"zone": [{
+# 				"zone-type": "ZONE",
+# 				"resolved": false,
+# 				"name": "untrust",
+# 				"variable-id": 0
+# 			}]
+# 		},
+# 		"name": "Rule-1",
+# 		"source-zone": {
+# 			"zone": [{
+# 				"zone-type": "ZONE",
+# 				"resolved": false,
+# 				"name": "trust",
+# 				"variable-id": 0
+# 			}]
+# 		},
+# 		"source-address": {
+# 			"exclude-list": false,
+# 			"addresses": {
+# 				"address-reference": [{
+# 					"id": 196608
+# 				}]
+# 			}
+# 		},
+# 		"condition-actions": {}
+# 	}
+# }

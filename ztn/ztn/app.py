@@ -15,9 +15,11 @@ def index():
     srczone = str(args['srczone'])
     destzone = str(args['destzone'])
 
-    c_a = ztn_elk.create_address(srcaddr)
+    c_a, addr_id = ztn_elk.create_address(srcaddr)
     if c_a:
         print("Created address")
+        print(addr_id)
+
     c_app = ztn_elk.create_application(servicename, destport, srcport)
     if c_app:
         print("created applicaiton")
