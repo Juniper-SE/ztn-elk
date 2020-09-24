@@ -149,7 +149,8 @@ def get_rule_groupid(policy_id):
 
     headers = {
         'Accept': 'application/vnd.juniper.sd.policy-management.firewall.rules+json;version=2;q=0.02',
-        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg==',
+        'Access-Control': 'managePolicies'
     }
 
     response = requests.request(

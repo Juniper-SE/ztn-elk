@@ -23,7 +23,6 @@ def index():
         c_a, dest_addr_id = ztn_elk.create_address(content['srcaddr'])
         if c_a:
             print("Created address")
-            print(addr_id)
 
         c_app, service_id = ztn_elk.create_application(
             content['servicename'], content['destport'], content['srcport'])
