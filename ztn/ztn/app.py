@@ -4,7 +4,7 @@ import ztn_elk
 app = Flask(__name__, template_folder="../templates")
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     args = request.args
     content = {
@@ -17,18 +17,23 @@ def index():
         "destzone": str(args['destzone'])
     }
 
-    # c_a, addr_id = ztn_elk.create_address(srcaddr)
-    # if c_a:
-    #     print("Created address")
-    #     print(addr_id)
+    if request.method == 'POST':
+        c_a, addr_id = ztn_elk.create_address(srcaddr)
+        if c_a:
+            print("Created address")
+            print(addr_id)
 
-    # c_app, app_id = ztn_elk.create_application(servicename, destport, srcport)
-    # if c_app:
-    #     print("created application")
+        c_app, service_id = ztn_elk.create_application(
+            servicename, destport, srcport)
+        if c_app:
+            print("created application")
 
-    # c_p, policy_id = ztn_elk.create_policy()
-    # if c_p:
-    #     print("created policy")
+        c_p, policy_id = ztn_elk.create_policy()
+        if c_p:
+            print("created policy")
+
+        c_tr, rule = ztn_elk.create_tradtl_rule(
+            src_addr_id, dest_addr_id, service_id, policy_id)
 
     return render_template("index.html", **content)
 

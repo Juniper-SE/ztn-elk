@@ -45,19 +45,11 @@
     </table>
     {% endif %}
 
-    <form>
-        Name: <input type="text" placeholder="Please enter a policy name." />
-        <br />
-        Description: <input type="text" size="50" placeholder="Policy created using ZTN - ELK" />
-        <br />
-        Type:
-        <input type="radio" id="group" name="policy-type" value="GROUP" checked>
-        <label for="group">Group policy</label>
-        <br />
-        &emsp;&emsp;&ensp;<input type="radio" id="device" name="policy-type" value="DEVICE">
-        <label for="device">Device policy</label>
-        <br />
-        This policy will be applied to all firewall devices.
+    The naming policy for all objects follow the format: 'ZTN_ELK_[object_name]_[random_id]'. For example, a new address
+    object created might have the name 'ZTN_ELK_ADDR_12345'.
+
+    <form action="/" method="post">
+        <button type="submit">Confirm</button>
     </form>
 </body>
 
