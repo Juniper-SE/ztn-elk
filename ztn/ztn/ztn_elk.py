@@ -68,8 +68,10 @@ def create_application(servicename, dstport, srcport):
         'other': 'PROTOCOL_OTHER'
     }
 
+    protocol_type = "None"
+
     if servicename == "None":
-        return
+        return False, 0
     elif servicename in protocol_types.keys():
         protocol_type = protocol_types[servicename]
     else:
@@ -77,9 +79,9 @@ def create_application(servicename, dstport, srcport):
 
     payload = json.dumps({
         "service": {
-            "is-group": 'false',
-            "name": "SER_ZTN_ELK_" + random_id,
-            "description": "service created by ZTN-ELK",
+            "is-group": "false",
+            "name": "ZTN_ELK_" + random_id,
+            "description": "Service automatically created by ZTN_ELK",
             "application-services": "",
             "protocols": {
                 "protocol": [{
@@ -88,20 +90,14 @@ def create_application(servicename, dstport, srcport):
                     "protocol-type": protocol_type,
                     "dst-port": dstport,
                     "enable-timeout": "false",
-                    "inactivity-timeout": "",
-                    "inactivity-time-type": "",
-                    "alg": "None",
-                    "src-port": srcport,
-                    "disable-timeout": "false",
-                    "rpc-program-number": "",
-                    "sunrpc-program-tcp": "",
-                    "sunrpc-program-type": "",
-                    "uuid": "",
-                    "msrpc-program-tcp": "",
-                    "msrpc-program-type": "",
-                    "enable-alg": "false",
-                    "icmp-code": "0",
-                    "icmp-type": "0"
+                                      "inactivity-timeout": "",
+                                                            "inactivity-time-type": "",
+                                                            "alg": "None",
+                                                            "src-port": srcport,
+                                                            "disable-timeout": "false",
+                                                            "enable-alg": "false",
+                                                            "icmp-code": "0",
+                                                            "icmp-type": "0"
                 }]
             }
         }
@@ -111,7 +107,9 @@ def create_application(servicename, dstport, srcport):
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    return response.ok
+    service_id = json.loads(response.text)['service']['id']
+
+    return response.ok, service_id
 
 
 def create_policy():
@@ -138,7 +136,6 @@ def create_policy():
         }
     })
 
-    # payload = {}
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
@@ -147,80 +144,121 @@ def create_policy():
     return response.ok, policy_id
 
 
-def create_rule():
-    pass
+def get_rule_groupid(policy_id):
+    url = sd_base_url + sd_policy_uri + "/" + str(policy_id) + "/rules"
 
-#     {
-# 	"rule": {
-# 		"rule-group-type": "CUSTOM",
-# 		"rule-profile": {
-# 			"profile-type": "INHERITED",
-# 			"user-defined-profile": {},
-# 			"custom-profile": {
-# 				"web-redirect": false,
-# 				"tcp-syn-check": false,
-# 				"infranet-redirect": "NONE",
-# 				"destination-address-translation": "NONE",
-# 				"redirect": "NONE",
-# 				"web-redirect-to-https": false,
-# 				"authentication-type": "NONE",
-# 				"service-offload": false,
-# 				"tcp-seq-check": false
-# 			}
-# 		},
-# 		"rule-order": 0,
-# 		"ips-enabled": false,
-# 		"policy-id": 229716,
-# 		"destination-address": {
-# 			"exclude-list": false,
-# 			"addresses": {
-# 				"address-reference": [{
-# 					"id": 196608
-# 				}]
-# 			}
-# 		},
-# 		"version": 2,
-# 		"rule-type": "RULE",
-# 		"vpn-tunnel-refs": {},
-# 		"disabled": false,
-# 		"rule-group-id": 229715,
-# 		"scheduler": {},
-# 		"services": {
-# 			"service-reference": [{
-# 				"id": 163840,
-# 				"is-group": false
-# 			}]
-# 		},
-# 		"action": "PERMIT",
-# 		"sec-intel-policy": {},
-# 		"custom-column-data": "",
-# 		"description": "created using automation",
-# 		"sourceidentities": {},
-# 		"destination-zone": {
-# 			"zone": [{
-# 				"zone-type": "ZONE",
-# 				"resolved": false,
-# 				"name": "untrust",
-# 				"variable-id": 0
-# 			}]
-# 		},
-# 		"name": "Rule-1",
-# 		"source-zone": {
-# 			"zone": [{
-# 				"zone-type": "ZONE",
-# 				"resolved": false,
-# 				"name": "trust",
-# 				"variable-id": 0
-# 			}]
-# 		},
-# 		"source-address": {
-# 			"exclude-list": false,
-# 			"addresses": {
-# 				"address-reference": [{
-# 					"id": 196608
-# 				}]
-# 			}
-# 		},
-# 		"condition-actions": {}
-# 	}
-# }
+    headers = {
+        'Accept': 'application/vnd.juniper.sd.policy-management.firewall.rules+json;version=2;q=0.02',
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, verify=False)
+
+    json_obj = json.loads(response.text)
+    zone_id = json_obj['rules'][0]['id']
+    global_id = json_obj['rules'][1]['id']
+
+    return zone_id, global_id
+
+
+def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id):
+    url = sd_base_url + sd_policy_uri + "/" + str(policy_id) + "/rules"
+
+    headers = {
+        'Content-Type': 'application/vnd.juniper.sd.policy-management.firewall.rule+json;version=2;charset=UTF-8',
+        'Accept': 'application/vnd.juniper.sd.policy-management.firewall.rule+json;version=2;q=0.02',
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+    }
+
+    random_id = str(uuid.uuid4().fields[-1])[:5]
+    rule_group_id_zone, rule_group_id_global = get_rule_groupid(policy_id)
+
+    if service_id is not None:
+        services = {
+            "service-reference": [{
+                "id": service_id,
+                "is-group": "false"
+            }]
+        }
+    else:
+        services = {}
+
+    payload = json.dumps({
+        "rule": {
+            "rule-group-type": "CUSTOM",
+            "rule-profile": {
+                "profile-type": "INHERITED",
+                "user-defined-profile": {},
+                "custom-profile": {
+                    "web-redirect": "false",
+                    "tcp-syn-check": "false",
+                    "infranet-redirect": "NONE",
+                                "destination-address-translation": "NONE",
+                                "redirect": "NONE",
+                                "web-redirect-to-https": "false",
+                                "authentication-type": "NONE",
+                                "service-offload": "false",
+                                "tcp-seq-check": "false"
+                }
+            },
+            "rule-order": 0,
+            "ips-enabled": "false",
+            "policy-id": policy_id,
+            "destination-address": {
+                "exclude-list": "false",
+                "addresses": {
+                    "address-reference": [{
+                        "id": dest_addr_id
+                    }]
+                }
+            },
+            "version": 2,
+            "rule-type": "RULE",
+            "vpn-tunnel-refs": {},
+            "disabled": "false",
+            "rule-group-id": rule_group_id_zone,
+            "scheduler": {},
+            "services": services,
+            "action": "PERMIT",
+            "sec-intel-policy": {},
+            "custom-column-data": "",
+            "description": "created using automation",
+            "sourceidentities": {},
+            "destination-zone": {
+                "zone": [{
+                    "zone-type": "ZONE",
+                    "resolved": "false",
+                    "name": "untrust",
+                    "variable-id": 0
+                }]
+            },
+            "name": "ZTN_ELK_RULE_" + random_id,
+            "source-zone": {
+                    "zone": [{
+                        "zone-type": "ZONE",
+                        "resolved": "false",
+                        "name": "trust",
+                                "variable-id": 0
+                    }]
+            },
+            "source-address": {
+                "exclude-list": "false",
+                "addresses": {
+                    "address-reference": [{
+                        "id": src_addr_id
+                    }]
+                }
+            },
+            "condition-actions": {}
+        }
+    })
+
+    response = requests.request(
+        "POST", url, headers=headers, data=payload, verify=False)
+
+    return response.ok
+
+
+def create_unified_rule():
+    pass

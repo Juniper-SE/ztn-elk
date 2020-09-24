@@ -8,11 +8,10 @@
     Please confirm the security policy and rule that will be sent to Junos Space Security Director.
     <hr />
 
-    {% if test_addr %}
-    {{ test_addr }}
-
-    {% endif %}
-
+    {{srcaddr}}
+    <br />
+    {{srcport}}
+    <br />
     <form>
         Name: <input type="text" placeholder="Please enter a policy name." />
         <br />
