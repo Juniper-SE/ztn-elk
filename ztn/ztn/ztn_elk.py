@@ -52,8 +52,8 @@ def create_application(servicename, dstport, srcport):
     url = sd_base_url + sd_service_uri
 
     headers = {
-        'Content-Type': 'application/vnd.juniper.sd.address-management.address+json;version=1;charset=UTF-8',
-        'Accept': 'application/vnd.juniper.sd.address-management.address+json;version=1;q=0.01',
+        'Content-Type': 'application/vnd.juniper.sd.service-management.service+json;version=1;charset=UTF-8',
+        'Accept': 'application/vnd.juniper.sd.service-management.service+json;version=1;q=0.01',
         'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
     }
 
@@ -77,7 +77,7 @@ def create_application(servicename, dstport, srcport):
 
     payload = json.dumps({
         "service": {
-            "is-group": False,
+            "is-group": 'false',
             "name": "SER_ZTN_ELK_" + random_id,
             "description": "service created by ZTN-ELK",
             "application-services": "",
@@ -143,7 +143,6 @@ def create_policy():
         "POST", url, headers=headers, data=payload, verify=False)
 
     policy_id = json.loads(response.text)['policy']['id']
-    print(policy_id)
 
     return response.ok, policy_id
 

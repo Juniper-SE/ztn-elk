@@ -22,7 +22,7 @@ def index():
 
     c_app = ztn_elk.create_application(servicename, destport, srcport)
     if c_app:
-        print("created applicaiton")
+        print("created application")
 
     c_p = ztn_elk.create_policy()
     if c_p:
