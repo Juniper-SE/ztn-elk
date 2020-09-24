@@ -48,8 +48,7 @@
     The naming policy for all objects follow the format: 'ZTN_ELK_[object_name]_[random_id]'. For example, a new address
     object created might have the name 'ZTN_ELK_ADDR_12345'.
 
-    <form method="post">
-        {{ qs }}
+    <form method="post" action='{{url("/?{{ qs }}")'>
         <button type="submit">Confirm</button>
     </form>
 </body>
