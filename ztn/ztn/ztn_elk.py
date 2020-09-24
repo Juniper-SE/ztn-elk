@@ -139,9 +139,9 @@ def create_policy():
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    policy_id = json.loads(response.text)['policy']['id']
+    policy = json.loads(response.text)['policy']
 
-    return response.ok, policy_id
+    return response.ok, policy
 
 
 def get_rule_groupid(policy_id):
@@ -168,7 +168,8 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id):
     headers = {
         'Content-Type': 'application/vnd.juniper.sd.policy-management.firewall.rule+json;version=2;charset=UTF-8',
         'Accept': 'application/vnd.juniper.sd.policy-management.firewall.rule+json;version=2;q=0.02',
-        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg==',
+        'Access-Control': 'ModifyPolicy'
     }
 
     random_id = str(uuid.uuid4().fields[-1])[:5]
@@ -257,7 +258,8 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id):
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    return response.ok
+    rule = json.loads(response.text)
+    return response.ok, rule
 
 
 def create_unified_rule():
