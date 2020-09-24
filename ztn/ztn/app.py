@@ -15,7 +15,7 @@ def index():
         "servicename": str(args['servicename']),
         "srczone": str(args['srczone']),
         "destzone": str(args['destzone']),
-        "qs": request.query_string
+        "qs": str(request.query_string)
     }
 
     if request.method == 'POST':
