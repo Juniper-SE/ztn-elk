@@ -32,8 +32,9 @@ def index():
         c_p, policy_id = ztn_elk.create_policy()
         if c_p:
             print("created policy")
+            print(policy_id)
 
-        c_tr, rule = ztn_elk.create_tradtl_rule(
+        c_tr = ztn_elk.create_tradtl_rule(
             src_addr_id, dest_addr_id, service_id, policy_id)
 
         if c_tr:
