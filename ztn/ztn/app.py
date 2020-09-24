@@ -19,7 +19,8 @@ def index():
     }
 
     if request.method == 'POST':
-        c_a, addr_id = ztn_elk.create_address(content['srcaddr'])
+        c_a, src_addr_id = ztn_elk.create_address(content['srcaddr'])
+        c_a, dest_addr_id = ztn_elk.create_address(content['srcaddr'])
         if c_a:
             print("Created address")
             print(addr_id)
@@ -34,7 +35,7 @@ def index():
             print("created policy")
 
         c_tr, rule = ztn_elk.create_tradtl_rule(
-            content['src_addr_id'], content['dest_addr_id'], content['service_id'], content['policy_id'])
+            src_addr_id, dest_addr_id, service_id, policy_id)
 
         if c_tr:
             print("created rule")
