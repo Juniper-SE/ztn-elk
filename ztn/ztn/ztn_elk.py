@@ -156,11 +156,12 @@ def get_rule_groupid(policy_id):
     response = requests.request(
         "GET", url, headers=headers, verify=False)
 
-    json_obj = json.loads(response.text)
-    zone_id = json_obj['rules'][0]['id']
-    global_id = json_obj['rules'][1]['id']
+    # json_obj = json.loads(response.text)
+    # zone_id = json_obj['rules'][0]['id']
+    # global_id = json_obj['rules'][1]['id']
 
-    return zone_id, global_id
+    # return zone_id, global_id
+    print(response)
 
 
 def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id):
