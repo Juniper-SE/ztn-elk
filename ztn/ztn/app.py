@@ -15,6 +15,9 @@ def index():
         "servicename": str(args['servicename']),
         "srczone": str(args['srczone']),
         "destzone": str(args['destzone']),
+        "application": str(args['application']),
+        "username": str(args['username']),
+        "protocol_id": str(args['protocol_id']),
         "qs": request.query_string.decode('utf-8')
     }
 
@@ -25,7 +28,7 @@ def index():
             print("Created address")
 
         c_app, service_id = ztn_elk.create_application(
-            content['servicename'], content['destport'], content['srcport'])
+            content['servicename'], content['destport'], content['srcport'], content['protocol_id'])
         if c_app:
             print("created application")
 
@@ -43,6 +46,34 @@ def index():
     return render_template("index.html", **content)
 
     # return render_template("index.html")
+
+
+@app.route('/enrichment')
+def enriched_data():
+    args = request.args
+    content = {
+        "srcaddr": str(args['srcaddr']),
+        "srcsubnet": str(convert_ip_to_subnet(args['srcaddr'])),
+        "srcport": str(args['srcport']),
+        "destaddr": str(args['destaddr']),
+        "destsubnet": str(convert_ip_to_subnet(args['srcaddr'])),
+        "destport": str(args['destport']),
+        "servicename": str(args['servicename']),
+        "srczone": str(args['srczone']),
+        "destzone": str(args['destzone']),
+        "application": str(args['application']),
+        "username": str(args['username']),
+        "protocol_id": str(args['protocol_id']),
+        "qs": request.query_string.decode('utf-8')
+    }
+
+    return render_template("enrichment.html", **content)
+
+
+def convert_ip_to_subnet(address):
+    last_period = address.rindex(".") + 1
+    subnet = address[:last_period] + "0"
+    return subnet
 
 
 if __name__ == "__main__":

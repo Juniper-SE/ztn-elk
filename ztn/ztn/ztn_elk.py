@@ -48,7 +48,7 @@ def create_address(address):
     return response.ok, addr_id
 
 
-def create_application(servicename, dstport, srcport):
+def create_application(servicename, dstport, srcport, protocol_id):
     url = sd_base_url + sd_service_uri
 
     headers = {
@@ -90,14 +90,15 @@ def create_application(servicename, dstport, srcport):
                     "protocol-type": protocol_type,
                     "dst-port": dstport,
                     "enable-timeout": "false",
-                                      "inactivity-timeout": "",
-                                                            "inactivity-time-type": "",
-                                                            "alg": "None",
-                                                            "src-port": srcport,
-                                                            "disable-timeout": "false",
-                                                            "enable-alg": "false",
-                                                            "icmp-code": "0",
-                                                            "icmp-type": "0"
+                    "inactivity-timeout": "",
+                    "inactivity-time-type": "",
+                    "alg": "None",
+                    "src-port": srcport,
+                    "disable-timeout": "false",
+                    "protocol-number": int(protocol_id),
+                    "enable-alg": "false",
+                    "icmp-code": "0",
+                    "icmp-type": "0"
                 }]
             }
         }

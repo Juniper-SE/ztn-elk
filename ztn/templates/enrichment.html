@@ -1,13 +1,22 @@
 <html>
 
 <head>
-    <title>Junos Space Security Director Form</title>
+    <title>Junos SD Enrichment Form</title>
 </head>
 
 <body>
     Please confirm the security policy and rule that will be sent to Junos Space Security Director.
     <hr />
 
+    <form>
+        <label for="sourceaddr">Choose address or subnet:</label>
+        <select id="sourceaddr">
+            <option value='{{ srcaddr }}'>{{srcaddr}}</option>
+            <option value='{{ srcsubnet }}'>{{srcsubnet}} /
+                <input type="text" placeholder="CIDR" style="width:30px" />
+            </option>
+        </select>
+    </form>
     {% if srcaddr %}
     <table style="width:300px">
         <tr>
