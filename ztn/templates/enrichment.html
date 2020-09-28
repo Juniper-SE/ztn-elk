@@ -2,6 +2,20 @@
 
 <head>
     <title>Junos SD Enrichment Form</title>
+    <script>
+        function onChangeSrcAddr() {
+            var selectBox = document.getElementById("sourceaddr")
+            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+            if (selectBox.options[selectBox.selectedIndex].id == "src_subnet") {
+                document.getElementById("src_cidr").disabled = false;
+            } else {
+                document.getElementById("src_cidr").disabled = true;
+                document.getElementById("src_cidr").value = "";
+            }
+            alert(selectedValue);
+        }
+    </script>
 </head>
 
 <body>
@@ -12,9 +26,8 @@
         <label for="sourceaddr">Choose address or subnet:</label>
         <select id="sourceaddr">
             <option value='{{ srcaddr }}'>{{srcaddr}}</option>
-            <option value='{{ srcsubnet }}'>{{srcsubnet}} /
-                <input type="text" placeholder="CIDR" style="width:30px" />
-            </option>
+            <option id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
+            / <input type="text" placeholder="CIDR" style="width:40px" id="src_cidr">
         </select>
     </form>
     {% if srcaddr %}
@@ -60,7 +73,7 @@
             <td>{{ destzone }}</td>
         </tr>
     </table>
-    <form action="/enrichment?{{ qs }}">
+    <form method="post" action="/enrichment?{{ qs }}">
         <button>Display enrichments</button>
     </form>
     {% endif %}

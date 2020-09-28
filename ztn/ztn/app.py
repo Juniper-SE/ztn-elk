@@ -48,7 +48,7 @@ def index():
     # return render_template("index.html")
 
 
-@app.route('/enrichment')
+@app.route('/enrichment', methods=['GET', 'POST'])
 def enriched_data():
     args = request.args
     content = {
