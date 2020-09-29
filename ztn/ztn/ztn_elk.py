@@ -26,11 +26,11 @@ def create_address(address):
         'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
     }
 
-    random_id = str(uuid.uuid4().fields[-1])[:5]
+    # random_id = str(uuid.uuid4().fields[-1])[:5]
     payload = json.dumps({
         'address': {
             'definition-type': 'CUSTOM',
-            'name': "ZTN_ELK_addr_" + random_id,
+            'name': str(address),
             'description': "Address added by ZTN_ELK",
             'address-type': 'IPADDRESS',
             'address-version': 'IPV4',
@@ -164,7 +164,7 @@ def get_rule_groupid(policy_id):
     return zone_id, global_id
 
 
-def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id):
+def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zone, dest_zone):
     url = sd_base_url + sd_policy_uri + "/" + str(policy_id) + "/rules"
 
     headers = {
@@ -223,7 +223,7 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id):
             "rule-group-id": rule_group_id_zone,
             "scheduler": {},
             "services": services,
-            "action": "PERMIT",
+            "action": "DENY",
             "sec-intel-policy": {},
             "custom-column-data": "",
             "description": "created using automation",
@@ -241,8 +241,8 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id):
                     "zone": [{
                         "zone-type": "ZONE",
                         "resolved": "false",
-                        "name": "trust",
-                                "variable-id": 0
+                        "name": src_zone,
+                        "variable-id": 0
                     }]
             },
             "source-address": {

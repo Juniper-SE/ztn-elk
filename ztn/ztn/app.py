@@ -38,7 +38,7 @@ def index():
             print(policy_id)
 
         c_tr = ztn_elk.create_tradtl_rule(
-            src_addr_id, dest_addr_id, service_id, policy_id)
+            src_addr_id, dest_addr_id, service_id, policy_id, content['srczone'], content['destzone'])
 
         if c_tr:
             print("created rule")

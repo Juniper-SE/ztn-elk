@@ -8,7 +8,6 @@
     Please confirm the security policy and rule that will be sent to Junos Space Security Director.
     <hr />
 
-    {% if srcaddr %}
     <table style="width:300px">
         <tr>
             <th>Field</th>
@@ -51,17 +50,22 @@
             <td>{{ destzone }}</td>
         </tr>
     </table>
-    <form action="/enrichment?{{ qs }}">
-        <button>Display enrichments</button>
-    </form>
-    {% endif %}
 
-    The naming policy for all objects follow the format: 'ZTN_ELK_[object_name]_[random_id]'. For example, a new address
-    object created might have the name 'ZTN_ELK_ADDR_12345'.
+    <div>
+        <form method="post" action="/?{{ qs }}">
+            <button type="submit">Confirm</button>
+        </form>
+        <form method="post" action="/enrichment?{{ qs }}">
+            <button>Display enrichments</button>
+        </form>
+    </div>
 
-    <form method="post" action="/?{{ qs }}">
-        <button type="submit">Confirm</button>
-    </form>
+    The confirm button will create a policy, rule, and all related objects. To change or modify any of these, please
+    click 'Display enrichments'.
+    The default naming policy for all objects follow the format: 'ZTN_ELK_[object_name]_[random_id]'. For example, a new
+    policy object created might have the name 'ZTN_ELK_ADDR_12345'.
+
+
 </body>
 
 </html>
