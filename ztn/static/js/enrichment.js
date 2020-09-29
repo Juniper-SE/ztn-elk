@@ -9,3 +9,25 @@ function onChangeSrcAddr() {
         document.getElementById("src_cidr").value = "";
     }
 }
+
+function onChangeSrcPort() {
+
+}
+
+function onChangeDestAddr() {
+
+}
+
+function onChangeDestPort() {
+
+}
+
+function useRecommended() {
+    var isChecked = document.getElementById("recommended").checked;
+
+    if (isChecked) {
+        alert("checked, yeehaw")
+    } else {
+        alert("not checked :(")
+    }
+}

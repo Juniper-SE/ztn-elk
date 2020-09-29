@@ -8,16 +8,40 @@
 </head>
 
 <body>
-    Please confirm the security policy and rule that will be sent to Junos Space Security Director.
+    This page allows you to make changes to the fields automatically pulled from logs.
     <hr />
 
-    <input <form>
-    <label for="sourceaddr">Choose address or subnet:</label>
-    <select id="sourceaddr" onchange="onChangeSrcAddr()">
-        <option value='{{ srcaddr }}'>{{srcaddr}}</option>
-        <option id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
-        <input type="text" placeholder="CIDR" style="width:40px" id="src_cidr" disabled>
-    </select>
+    <input type="checkbox" id="recommended" value="recommended" onchange="useRecommended()">
+    <label for="recommended">Use recommended values?</label>
+
+    <form>
+        <label for="sourceaddr">Source address</label>
+        <select id="sourceaddr" onchange="onChangeSrcAddr()">
+            <option value='{{ srcaddr }}'>{{srcaddr}}</option>
+            <option id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
+            <input type="text" placeholder="CIDR" style="width:50px" id="src_cidr" disabled>
+        </select>
+
+        <label for="sourceport">Source port</label>
+        <select id="sourceport" onchange="onChangeSrcPort()">
+            <option value='{{ srcport }}'>{{srcport}}</option>
+            <option id="srcport_any" value='any'>any</option>
+        </select>
+
+        <label for="sourceaddr">Destination address</label>
+        <select id="destaddr" onchange="onChangeDestAddr()">
+            <option value='{{ destaddr }}'>{{destaddr}}</option>
+            <option id="dest_subnet" value='{{ destsubnet }}'>{{srcsubnet}}</option>
+            <input type="text" placeholder="CIDR" style="width:50px" id="src_cidr" disabled>
+        </select>
+
+        <label for="destport">Destination port</label>
+        <select id="destport" onchange="onChangeDestPort()">
+            <option value='{{ destport }}'>{{destport}}</option>
+            <option id="destport_any" value='any'>any</option>
+        </select>
+
+
     </form>
     {% if srcaddr %}
     <table style="width:300px">
