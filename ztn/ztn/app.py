@@ -1,5 +1,6 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
 import ztn_elk
+import os
 
 app = Flask(__name__, template_folder="../templates")
 
@@ -68,6 +69,11 @@ def enriched_data():
     }
 
     return render_template("enrichment.html", **content)
+
+
+@app.route('/js/<path:filename')
+def serve_static(filename):
+    return send_from_directory(os.path.join('.', 'static', 'js'), filename)
 
 
 def convert_ip_to_subnet(address):
