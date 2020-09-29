@@ -44,9 +44,9 @@ def index():
         if c_tr:
             print("created rule")
 
-    return render_template("index.html", **content)
+        return '''The form has been submitted, you can close this page.'''
 
-    # return render_template("index.html")
+    return render_template("index.html", **content)
 
 
 @app.route('/enrichment', methods=['GET', 'POST'])
