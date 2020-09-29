@@ -3,19 +3,21 @@
 <head>
     <title>Junos SD Enrichment Form</title>
     <script src="/js/enrichment.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 
 <body>
     Please confirm the security policy and rule that will be sent to Junos Space Security Director.
     <hr />
 
-    <form>
-        <label for="sourceaddr">Choose address or subnet:</label>
-        <select id="sourceaddr" onchange="onChangeSrcAddr()">
-            <option value='{{ srcaddr }}'>{{srcaddr}}</option>
-            <option id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
-            <input type="text" placeholder="CIDR" style="width:40px" id="src_cidr" disabled>
-        </select>
+    <input <form>
+    <label for="sourceaddr">Choose address or subnet:</label>
+    <select id="sourceaddr" onchange="onChangeSrcAddr()">
+        <option value='{{ srcaddr }}'>{{srcaddr}}</option>
+        <option id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
+        <input type="text" placeholder="CIDR" style="width:40px" id="src_cidr" disabled>
+    </select>
     </form>
     {% if srcaddr %}
     <table style="width:300px">
