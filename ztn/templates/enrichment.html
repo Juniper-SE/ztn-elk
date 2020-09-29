@@ -45,12 +45,36 @@
         </select>
         <br />
 
+        <label for="srczone">Source zone</label>
+        <select id="srczone" onchange="onChangeSrcZone()">
+            <option value='{{ srczone }}'>{{srczone}}</option>
+            <option id="srczone_any" value='any'>any</option>
+        </select>
+        <br />
+
+        <label for="destzone">Destination zone</label>
+        <select id="destzone" onchange="onChangeDestZone()">
+            <option value='{{ destzone }}'>{{destzone}}</option>
+            <option id="destzone_any" value='any'>any</option>
+        </select>
+        <br />
+
+        <label for="username">Username</label>
+        <select id="username" onchange="onChangeUsername()">
+            <option value='{{ username }}'>{{username}}</option>
+            <option id="username_group" value='group'>group</option>
+        </select>
+        <br />
+
+        <label for="application">Application</label>
+        <select id="application" onchange="onChangeApplication()">
+            <option value='{{ application }}'>{{application}}</option>
+            <option id="application_any" value='any'>any</option>
+        </select>
+        <br />
 
     </form>
 
-    <form method="get" action="/?{{ qs }}">
-        <button>Back to default</button>
-    </form>
 </body>
 
 </html>

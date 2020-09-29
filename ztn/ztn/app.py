@@ -57,7 +57,7 @@ def enriched_data():
         "srcsubnet": str(convert_ip_to_subnet(args['srcaddr'])),
         "srcport": str(args['srcport']),
         "destaddr": str(args['destaddr']),
-        "destsubnet": str(convert_ip_to_subnet(args['srcaddr'])),
+        "destsubnet": str(convert_ip_to_subnet(args['destaddr'])),
         "destport": str(args['destport']),
         "servicename": str(args['servicename']),
         "srczone": str(args['srczone']),
