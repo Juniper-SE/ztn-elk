@@ -21,81 +21,35 @@
             <option id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
             <input type="text" placeholder="CIDR" style="width:50px" id="src_cidr" disabled>
         </select>
+        <br />
 
         <label for="sourceport">Source port</label>
         <select id="sourceport" onchange="onChangeSrcPort()">
             <option value='{{ srcport }}'>{{srcport}}</option>
             <option id="srcport_any" value='any'>any</option>
         </select>
+        <br />
 
         <label for="sourceaddr">Destination address</label>
         <select id="destaddr" onchange="onChangeDestAddr()">
             <option value='{{ destaddr }}'>{{destaddr}}</option>
-            <option id="dest_subnet" value='{{ destsubnet }}'>{{srcsubnet}}</option>
+            <option id="dest_subnet" value='{{ destsubnet }}'>{{destsubnet}}</option>
             <input type="text" placeholder="CIDR" style="width:50px" id="src_cidr" disabled>
         </select>
+        <br />
 
         <label for="destport">Destination port</label>
         <select id="destport" onchange="onChangeDestPort()">
             <option value='{{ destport }}'>{{destport}}</option>
             <option id="destport_any" value='any'>any</option>
         </select>
+        <br />
 
 
     </form>
-    {% if srcaddr %}
-    <table style="width:300px">
-        <tr>
-            <th>Field</th>
-            <th>Value</th>
-        </tr>
-        <tr>
-            <td>Source Address</td>
-            <td>{{ srcaddr }}</td>
-        </tr>
-        <tr>
-            <td>Source Port</td>
-            <td>{{ srcport }}</td>
-        </tr>
-        <tr>
-            <td>Destination Address</td>
-            <td>{{ destaddr }}</td>
-        </tr>
-        <tr>
-            <td>Destination Port</td>
-            <td>{{ destport }}</td>
-        </tr>
-        <tr>
-            <td>Service name</td>
-            <td>{{ servicename }}</td>
-        </tr>
-        <tr>
-            <td>Application</td>
-            <td>{{ application }}</td>
-        </tr>
-        <tr>
-            <td>Username</td>
-            <td>{{ username }}</td>
-        </tr>
-        <tr>
-            <td>Source zone</td>
-            <td>{{ srczone }}</td>
-        </tr>
-        <tr>
-            <td>Destination zone</td>
-            <td>{{ destzone }}</td>
-        </tr>
-    </table>
-    <form method="post" action="/enrichment?{{ qs }}">
-        <button>Display enrichments</button>
-    </form>
-    {% endif %}
 
-    The naming policy for all objects follow the format: 'ZTN_ELK_[object_name]_[random_id]'. For example, a new address
-    object created might have the name 'ZTN_ELK_ADDR_12345'.
-
-    <form method="post" action="/?{{ qs }}">
-        <button type="submit">Confirm</button>
+    <form method="get" action="/?{{ qs }}">
+        <button>Back to default</button>
     </form>
 </body>
 
