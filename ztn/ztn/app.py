@@ -71,9 +71,10 @@ def enriched_data():
     return render_template("enrichment.html", **content)
 
 
-@app.route('/js/<path:filename')
+@app.route('/js/<path:filename>')
 def serve_static(filename):
-    return send_from_directory(os.path.join('.', 'static', 'js'), filename)
+    root_dir = os.path.dirname(os.getcwd())
+    return send_from_directory(os.path.join(root_dir, 'static', 'js'), filename)
 
 
 def convert_ip_to_subnet(address):
