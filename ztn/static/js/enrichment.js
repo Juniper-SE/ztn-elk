@@ -34,7 +34,7 @@ function useRecommended() {
         document.getElementById("sourceport").selectedIndex = 0;
 
         // Set destination address to subnet + /24 cidr
-        document.getElementById("desteaddr").selectedIndex = 1;
+        document.getElementById("destaddr").selectedIndex = 1;
         document.getElementById("dest_cidr").value = 24;
 
         // Set dest port to specific port
