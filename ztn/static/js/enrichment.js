@@ -29,6 +29,7 @@ function useRecommended() {
         // Set source address to subnet + /24 cidr
         document.getElementById("sourceaddr").selectedIndex = 1;
         document.getElementById("src_cidr").value = 24;
+        document.getElementById("src_cidr").disabled = false;
 
         // Set source port to specific port
         document.getElementById("sourceport").selectedIndex = 0;
@@ -36,6 +37,7 @@ function useRecommended() {
         // Set destination address to subnet + /24 cidr
         document.getElementById("destaddr").selectedIndex = 1;
         document.getElementById("dest_cidr").value = 24;
+        document.getElementById("dest_cidr").disabled = false;
 
         // Set dest port to specific port
         document.getElementById("destport").selectedIndex = 0;

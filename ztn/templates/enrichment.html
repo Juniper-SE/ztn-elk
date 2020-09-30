@@ -73,6 +73,8 @@
                     <select id="srczone" onchange="onChangeSrcZone()">
                         <option value='{{ srczone }}'>{{srczone}}</option>
                         <option id="srczone_any" value='any'>any</option>
+                        <option id="srczone_trust" value='trust'>trust</option>
+                        <option id="srczone_untrust" value='untrust'>untrust</option>
                     </select>
                 </td>
             </tr>
@@ -85,6 +87,8 @@
                     <select id="destzone" onchange="onChangeDestZone()">
                         <option value='{{ destzone }}'>{{destzone}}</option>
                         <option id="destzone_any" value='any'>any</option>
+                        <option id="srczone_trust" value='trust'>trust</option>
+                        <option id="srczone_untrust" value='untrust'>untrust</option>
                     </select>
                 </td>
             </tr>
@@ -115,7 +119,16 @@
                     <label for="policy_name">Policy Name</label>
                 </td>
                 <td>
-                    <input type="text" </td>
+                    <input type="text" placeholder="ZTN_ELK_POLICY_12345">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="policy_name">Rule Name</label>
+                </td>
+                <td>
+                    <input type="text" placeholder="ZTN_ELK_RULE_12345">
+                </td>
             </tr>
         </table>
     </form>

@@ -32,7 +32,7 @@ def check_address_exists(address):
     Checks whether an address matches the attributes of an address object
     already in Security Director.
 
-    :return address ID if a matching object exists, None otherwise
+    :return address ID if a matching object exists, None otherwise ; status code
     """
 
     url = sd_base_url + sd_address_uri
@@ -47,13 +47,14 @@ def check_address_exists(address):
     response = requests.request(
         "GET", url, headers=headers, data=payload, verify=False)
 
-    addresses = json.loads(response.text)['addresses']['address']
+    if response.ok:
+        addresses = json.loads(response.text)['addresses']['address']
 
-    for addr in addresses:
-        if 'ip-address' in addr and addr['ip-address'] == address:
-            return addr['id']
+        for addr in addresses:
+            if 'ip-address' in addr and addr['ip-address'] == address:
+                return addr['id'], response.status_code
 
-    return None
+    return None, response.status_code
 
 
 def create_address(address):
@@ -61,7 +62,8 @@ def create_address(address):
     Creates an address object in SD based on the given IP address.
     You can create a single host, range, or a subnet (network).
 
-    :param address string
+    :param address string in octet form or subnet form (x.x.x.x/x)
+    :return
     """
 
     url = sd_base_url + sd_address_uri
@@ -90,7 +92,7 @@ def create_address(address):
 
     addr_id = json.loads(response.text)['address']['id']
 
-    return response.ok, addr_id
+    return response.status_code, addr_id
 
 
 def create_application(servicename, dstport, srcport, protocol_id):
@@ -155,7 +157,7 @@ def create_application(servicename, dstport, srcport, protocol_id):
 
     service_id = json.loads(response.text)['service']['id']
 
-    return response.ok, service_id
+    return response.status_code, service_id
 
 
 def create_policy():
@@ -187,7 +189,7 @@ def create_policy():
 
     policy_id = json.loads(response.text)['policy']['id']
 
-    return response.ok, policy_id
+    return response.status_code, policy_id
 
 
 def get_rule_groupid(policy_id):
@@ -305,7 +307,7 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zon
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    return response.ok
+    return response.status_code
 
 
 def create_unified_rule():
