@@ -37,13 +37,15 @@ def check_address_exists(address):
 
     url = sd_base_url + sd_address_uri
 
+    payload = {}
+
     headers = {
-        'Accept': 'application/vnd.juniper.sd.address-management.address+json;version=1;q=0.01',
+        'Accept': 'application/vnd.juniper.sd.address-management.address-refs+json;version=1;q=0.01',
         'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
     }
 
-    payload = {}
-    response = requests.request("GET", url, headers=headers, data=payload)
+    response = requests.request(
+        "GET", url, headers=headers, data=payload, verify=False)
 
     print(response)
 
