@@ -47,12 +47,10 @@ def check_address_exists(address):
     response = requests.request(
         "GET", url, headers=headers, data=payload, verify=False)
 
-    print(response)
-
     addresses = json.loads(response.text)['addresses']['address']
 
     for addr in addresses:
-        if addr['ip-address'] == address:
+        if 'ip-address' in addr and addr['ip-address'] == address:
             return True
 
     return False
