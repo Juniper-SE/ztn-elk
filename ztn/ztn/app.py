@@ -28,7 +28,10 @@ def index():
     }
 
     if request.method == 'POST':
-        if not ztn_elk.check_address_exists(content['srcaddr']):
+        src_addr_id = ztn_elk.check_address_exists(content['srcaddr'])
+        dest_addr_id = ztn_elk.check_address_exists(content['destaddr'])
+
+        if src_addr_id is None:
             create_src_addr, src_addr_id = ztn_elk.create_address(
                 content['srcaddr'])
 
@@ -37,10 +40,11 @@ def index():
             else:
                 logging.warn("Source address object failed to be created.")
         else:
+            src_addr_id
             logging.info(
                 "Source address object with same IP exists, skipping creation.")
 
-        if not ztn_elk.check_address_exists(content['destaddr']):
+        if dest_addr_id is None:
             create_dest_addr, dest_addr_id = ztn_elk.create_address(
                 content['destaddr'])
 

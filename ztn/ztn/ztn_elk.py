@@ -32,7 +32,7 @@ def check_address_exists(address):
     Checks whether an address matches the attributes of an address object
     already in Security Director.
 
-    :return True if a match is found, False otherwise
+    :return address ID if a matching object exists, None otherwise
     """
 
     url = sd_base_url + sd_address_uri
@@ -51,9 +51,9 @@ def check_address_exists(address):
 
     for addr in addresses:
         if 'ip-address' in addr and addr['ip-address'] == address:
-            return True
+            return addr['id']
 
-    return False
+    return None
 
 
 def create_address(address):
