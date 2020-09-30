@@ -87,7 +87,7 @@ def index():
                 "Destination address object with same IP %s exists, skipping creation.", content['destaddr'])
 
         # Attempt to create application based off the given name, ports, and protocol id as applicable
-        servicename = "any" if content['servicename'] is "None" else content['servicename']
+        servicename = "any" if content['servicename'] == "None" else content['servicename']
         create_app_status, service_id = ztn_elk.create_application(
             content['application'], servicename, content['destport'], content['srcport'], content['protocol_id'])
 
