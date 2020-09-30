@@ -95,7 +95,7 @@ def create_address(address):
     return response.status_code, addr_id
 
 
-def create_application(servicename, dstport, srcport, protocol_id):
+def create_application(appname, servicename, dstport, srcport, protocol_id):
     url = sd_base_url + sd_service_uri
 
     headers = {
@@ -104,7 +104,7 @@ def create_application(servicename, dstport, srcport, protocol_id):
         'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
     }
 
-    random_id = str(uuid.uuid4().fields[-1])[:5]
+    # random_id = str(uuid.uuid4().fields[-1])[:5]
     protocol_types = {
         'tcp': 'PROTOCOL_TCP',
         'udp': 'PROTOCOL_UDP',
@@ -115,7 +115,7 @@ def create_application(servicename, dstport, srcport, protocol_id):
         'other': 'PROTOCOL_OTHER'
     }
 
-    protocol_type = "None"
+    protocol_type = ""
 
     if servicename == "None":
         return 204, None
@@ -127,7 +127,7 @@ def create_application(servicename, dstport, srcport, protocol_id):
     payload = json.dumps({
         "service": {
             "is-group": "false",
-            "name": "ZTN_ELK_" + random_id,
+            "name": appname,
             "description": "Service automatically created by ZTN_ELK",
             "application-services": "",
             "protocols": {
