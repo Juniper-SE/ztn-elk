@@ -1,8 +1,13 @@
 from flask import Flask, request, render_template, send_from_directory
 import ztn_elk
 import os
+import logging
 
 app = Flask(__name__, template_folder="../templates")
+
+# Logging configuration
+logging.basicConfig(filename="ztn_elk.log",
+                    format='%(asctime)s %(message)s', level=logging.DEBUG)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -23,10 +28,30 @@ def index():
     }
 
     if request.method == 'POST':
-        c_a, src_addr_id = ztn_elk.create_address(content['srcaddr'])
-        c_a, dest_addr_id = ztn_elk.create_address(content['srcaddr'])
-        if c_a:
-            print("Created address")
+        if not ztn_elk.check_address_exists(content['srcaddr']):
+            create_src_addr, src_addr_id = ztn_elk.create_address(
+                content['srcaddr'])
+
+            if create_src_addr:
+                logging.info("Source address object created.")
+            else:
+                logging.warn("Source address object failed to be created.")
+        else:
+            logging.info(
+                "Source address object with same IP exists, skipping creation.")
+
+        if not ztn_elk.check_address_exists(content['destaddr']):
+            create_dest_addr, dest_addr_id = ztn_elk.create_address(
+                content['destaddr'])
+
+            if create_dest_addr:
+                logging.info("Destination address object created.")
+            else:
+                logging.warn(
+                    "Destination address object failed to be created.")
+        else:
+            logging.info(
+                "Destination address object with same IP exists, skipping creation.")
 
         c_app, service_id = ztn_elk.create_application(
             content['servicename'], content['destport'], content['srcport'], content['protocol_id'])
