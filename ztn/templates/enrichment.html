@@ -24,7 +24,8 @@
                     <select id="sourceaddr" onchange="onChangeSrcAddr()">
                         <option value='{{ srcaddr }}'>{{srcaddr}}</option>
                         <option id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
-                        <input type="text" placeholder="CIDR" style="width:50px" id="src_cidr" disabled>
+                        <input type="number" placeholder="CIDR" style="width:50px" id="src_cidr" disabled min="8"
+                            max="32">
                     </select>
                 </td>
             </tr>
@@ -47,7 +48,8 @@
                     <select id="destaddr" onchange="onChangeDestAddr()">
                         <option value='{{ destaddr }}'>{{destaddr}}</option>
                         <option id="dest_subnet" value='{{ destsubnet }}'>{{destsubnet}}</option>
-                        <input type="text" placeholder="CIDR" style="width:50px" id="dest_cidr" disabled>
+                        <input type="number" placeholder="CIDR" style="width:50px" id="dest_cidr" disabled min="8"
+                            max="32">
                     </select>
                 </td>
             </tr>
@@ -107,6 +109,13 @@
                         <option id="application_any" value='any'>any</option>
                     </select>
                 </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="policy_name">Policy Name</label>
+                </td>
+                <td>
+                    <input type="text" </td>
             </tr>
         </table>
     </form>

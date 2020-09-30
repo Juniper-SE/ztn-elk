@@ -1,0 +1,57 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module ztn_elk</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ztn_elk</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/nlandsberg/Github_Repos/ztn_elk/ztn/ztn/ztn_elk.py">/Users/nlandsberg/Github_Repos/ztn_elk/ztn/ztn/ztn_elk.py</a></font></td></tr></table>
+    <p><tt>Makes&nbsp;API&nbsp;calls&nbsp;to&nbsp;Junos&nbsp;Space&nbsp;Security&nbsp;Director&nbsp;for&nbsp;each<br>
+step&nbsp;of&nbsp;a&nbsp;workflow.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="json.html">json</a><br>
+</td><td width="25%" valign=top><a href="requests.html">requests</a><br>
+</td><td width="25%" valign=top><a href="uuid.html">uuid</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-create_address"><strong>create_address</strong></a>(address)</dt><dd><tt>Creates&nbsp;an&nbsp;address&nbsp;object&nbsp;in&nbsp;SD&nbsp;based&nbsp;on&nbsp;the&nbsp;given&nbsp;IP&nbsp;address.</tt></dd></dl>
+ <dl><dt><a name="-create_application"><strong>create_application</strong></a>(servicename, dstport, srcport, protocol_id)</dt></dl>
+ <dl><dt><a name="-create_policy"><strong>create_policy</strong></a>()</dt></dl>
+ <dl><dt><a name="-create_tradtl_rule"><strong>create_tradtl_rule</strong></a>(src_addr_id, dest_addr_id, service_id, policy_id, src_zone, dest_zone)</dt></dl>
+ <dl><dt><a name="-create_unified_rule"><strong>create_unified_rule</strong></a>()</dt></dl>
+ <dl><dt><a name="-get_rule_groupid"><strong>get_rule_groupid</strong></a>(policy_id)</dt></dl>
+ <dl><dt><a name="-pretty_json"><strong>pretty_json</strong></a>(text)</dt><dd><tt>Helper&nbsp;function&nbsp;to&nbsp;print&nbsp;JSON&nbsp;with&nbsp;nice&nbsp;indents&nbsp;on&nbsp;the&nbsp;CLI.<br>
+&nbsp;<br>
+:param&nbsp;text&nbsp;plain-text&nbsp;that&nbsp;can&nbsp;be&nbsp;converted&nbsp;to&nbsp;a&nbsp;JSON&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-sleep"><strong>sleep</strong></a>(...)</dt><dd><tt><a href="#-sleep">sleep</a>(seconds)<br>
+&nbsp;<br>
+Delay&nbsp;execution&nbsp;for&nbsp;a&nbsp;given&nbsp;number&nbsp;of&nbsp;seconds.&nbsp;&nbsp;The&nbsp;argument&nbsp;may&nbsp;be<br>
+a&nbsp;floating&nbsp;point&nbsp;number&nbsp;for&nbsp;subsecond&nbsp;precision.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>ecs_base_url</strong> = 'http://172.16.30.142:9200'<br>
+<strong>sd_address_uri</strong> = '/api/juniper/sd/address-management/addresses'<br>
+<strong>sd_base_url</strong> = 'https://172.25.125.101'<br>
+<strong>sd_policy_uri</strong> = '/api/juniper/sd/policy-management/firewall/policies'<br>
+<strong>sd_service_uri</strong> = '/api/juniper/sd/service-management/services'</td></tr></table>
+</body></html>

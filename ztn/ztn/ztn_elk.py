@@ -1,3 +1,8 @@
+"""
+    Makes API calls to Junos Space Security Director for each
+     qqqstep of a workflow.
+"""
+
 import requests
 import json
 from pprint import pprint
@@ -14,10 +19,51 @@ sd_policy_uri = "/api/juniper/sd/policy-management/firewall/policies"
 
 
 def pretty_json(text):
+    """
+    Helper function to print JSON with nice indents on the CLI.
+
+    :param text plain-text that can be converted to a JSON object
+    """
     return json.dumps(json.loads(text), indent=2)
 
 
+def check_address_exists(address):
+    """
+    Checks whether an address matches the attributes of an address object
+    already in Security Director.
+
+    :return True if a match is found, False otherwise
+    """
+
+    url = sd_base_url + sd_address_uri
+
+    headers = {
+        'Accept': 'application/vnd.juniper.sd.address-management.address+json;version=1;q=0.01',
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+    }
+
+    payload = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    print(response)
+
+    addresses = json.loads(response.text)['addresses']['address']
+
+    for addr in addresses:
+        if addr['ip-address'] == address:
+            return True
+
+    return False
+
+
 def create_address(address):
+    """
+    Creates an address object in SD based on the given IP address.
+    You can create a single host, range, or a subnet (network).
+
+    :param address string
+    """
+
     url = sd_base_url + sd_address_uri
 
     headers = {
@@ -39,7 +85,6 @@ def create_address(address):
         }
     })
 
-    # payload = {}
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
