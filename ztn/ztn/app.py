@@ -91,7 +91,8 @@ def index():
             content['servicename'], content['destport'], content['srcport'], content['protocol_id'])
 
         if create_app_status < 400:
-            logging.info("Application %s created.", content['servicename'])
+            logging.info("Application %s created with id %s.",
+                         content['servicename'], service_id)
         else:
             logging.warning("Application %s was NOT created with status code %d.",
                             content['servicename'], create_app_status)
