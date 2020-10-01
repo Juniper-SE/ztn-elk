@@ -195,7 +195,7 @@ def create_policy(**kwargs):
     random_id = str(uuid.uuid4().fields[-1])[:5]
     payload = json.dumps({
         "policy": {
-            "name": ("ZTN_ELK_POLICY_" + random_id) if policy_name is None else policy_name,
+            "name": ("ZTN_ELK_POLICY_" + random_id) if policy_name is None or policy_name == "" else policy_name,
             "description": "Policy crated using ZTN_ELK",
             "policy-type": "GROUP",
             "showDevicesWithoutPolicy": 'false',
@@ -310,7 +310,7 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zon
                     "variable-id": 0
                 }]
             },
-            "name": ("ZTN_ELK_RULE_" + random_id) if rule_name is None else rule_name,
+            "name": ("ZTN_ELK_RULE_" + random_id) if rule_name is None or rule_name == "" else rule_name,
             "source-zone": {
                 "zone": [{
                     "zone-type": "ZONE",
