@@ -14,18 +14,18 @@
     <input type="checkbox" id="recommended" value="recommended" onchange="useRecommended()">
     <label for="recommended">Use recommended values?</label>
 
-    <form>
+    <form method="post" action="/enrichment/submit">
         <table style="width:500px">
             <tr>
                 <td>
                     <label for="sourceaddr">Source address</label>
                 </td>
                 <td>
-                    <select id="sourceaddr" onchange="onChangeSrcAddr()">
+                    <select id="sourceaddr" name="sourceaddr" onchange="onChangeSrcAddr()">
                         <option value='{{ srcaddr }}'>{{srcaddr}}</option>
-                        <option id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
-                        <input type="number" placeholder="CIDR" style="width:50px" id="src_cidr" disabled min="8"
-                            max="32">
+                        <option name="src_subnet" id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
+                        <input type="number" placeholder="CIDR" style="width:50px" name="src_cidr" id="src_cidr"
+                            disabled min="8" max="32">
                     </select>
                 </td>
             </tr>
@@ -34,22 +34,22 @@
                     <label for="sourceport">Source port</label>
                 </td>
                 <td>
-                    <select id="sourceport" onchange="onChangeSrcPort()">
+                    <select name="sourceport" id="sourceport" onchange="onChangeSrcPort()">
                         <option value='{{ srcport }}'>{{srcport}}</option>
-                        <option id="srcport_any" value='any'>any</option>
+                        <option name="srcport_any" value='any'>any</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label for="sourceaddr">Destination address</label>
+                    <label for="destaddr">Destination address</label>
                 </td>
                 <td>
-                    <select id="destaddr" onchange="onChangeDestAddr()">
+                    <select name="destaddr" onchange="onChangeDestAddr()">
                         <option value='{{ destaddr }}'>{{destaddr}}</option>
-                        <option id="dest_subnet" value='{{ destsubnet }}'>{{destsubnet}}</option>
-                        <input type="number" placeholder="CIDR" style="width:50px" id="dest_cidr" disabled min="8"
-                            max="32">
+                        <option name="dest_subnet" id="dest_subnet" value='{{ destsubnet }}'>{{destsubnet}}</option>
+                        <input type="number" placeholder="CIDR" style="width:50px" name="dest_cidr" id="dest_cidr"
+                            disabled min="8" max="32">
                     </select>
                 </td>
             </tr>
@@ -58,9 +58,9 @@
                     <label for="destport">Destination port</label>
                 </td>
                 <td>
-                    <select id="destport" onchange="onChangeDestPort()">
+                    <select name="destport" id="destport" onchange="onChangeDestPort()">
                         <option value='{{ destport }}'>{{destport}}</option>
-                        <option id="destport_any" value='any'>any</option>
+                        <option name="destport_any" value='any'>any</option>
                     </select>
                 </td>
             </tr>
@@ -70,11 +70,11 @@
                     <label for="srczone">Source zone</label>
                 </td>
                 <td>
-                    <select id="srczone" onchange="onChangeSrcZone()">
+                    <select name="srczone" id="srczone" onchange="onChangeSrcZone()">
                         <option value='{{ srczone }}'>{{srczone}}</option>
-                        <option id="srczone_any" value='any'>any</option>
-                        <option id="srczone_trust" value='trust'>trust</option>
-                        <option id="srczone_untrust" value='untrust'>untrust</option>
+                        <option name="srczone_any" value='any'>any</option>
+                        <option name="srczone_trust" value='trust'>trust</option>
+                        <option name="srczone_untrust" value='untrust'>untrust</option>
                     </select>
                 </td>
             </tr>
@@ -84,11 +84,11 @@
                     <label for="destzone">Destination zone</label>
                 </td>
                 <td>
-                    <select id="destzone" onchange="onChangeDestZone()">
+                    <select name="destzone" id="destzone" onchange="onChangeDestZone()">
                         <option value='{{ destzone }}'>{{destzone}}</option>
-                        <option id="destzone_any" value='any'>any</option>
-                        <option id="srczone_trust" value='trust'>trust</option>
-                        <option id="srczone_untrust" value='untrust'>untrust</option>
+                        <option name="destzone_any" value='any'>any</option>
+                        <option name="srczone_trust" value='trust'>trust</option>
+                        <option name="srczone_untrust" value='untrust'>untrust</option>
                     </select>
                 </td>
             </tr>
@@ -97,9 +97,20 @@
                     <label for="username">Username</label>
                 </td>
                 <td>
-                    <select id="username" onchange="onChangeUsername()">
+                    <select name="username" id="username" onchange="onChangeUsername()">
                         <option value='{{ username }}'>{{username}}</option>
-                        <option id="username_group" value='group'>group</option>
+                        <option name="username_group" value='group'>group</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="servicename">Service Name</label>
+                </td>
+                <td>
+                    <select name="servicename" id="servicename" onchange="onChangeApplication()">
+                        <option value='{{ servicename }}'>{{servicename}}</option>
+                        <option name="servicename_any" value='any'>any</option>
                     </select>
                 </td>
             </tr>
@@ -108,9 +119,9 @@
                     <label for="application">Application</label>
                 </td>
                 <td>
-                    <select id="application" onchange="onChangeApplication()">
+                    <select name="application" id="application" onchange="onChangeApplication()">
                         <option value='{{ application }}'>{{application}}</option>
-                        <option id="application_any" value='any'>any</option>
+                        <option name="application_any" value='any'>any</option>
                     </select>
                 </td>
             </tr>
@@ -119,7 +130,7 @@
                     <label for="policy_name">Policy Name</label>
                 </td>
                 <td>
-                    <input type="text" placeholder="ZTN_ELK_POLICY_12345">
+                    <input name="policy_name" name="policy_name" type="text" placeholder="ZTN_ELK_POLICY_12345">
                 </td>
             </tr>
             <tr>
@@ -127,10 +138,12 @@
                     <label for="policy_name">Rule Name</label>
                 </td>
                 <td>
-                    <input type="text" placeholder="ZTN_ELK_RULE_12345">
+                    <input name="rule_name" id="rule_name" type="text" placeholder="ZTN_ELK_RULE_12345">
                 </td>
             </tr>
         </table>
+        <input type="hidden" id="protocol_id" name="protocol_id" value="{{ protocol_id }}">
+        <button type="submit">Submit enriched form</button>
     </form>
 
 </body>

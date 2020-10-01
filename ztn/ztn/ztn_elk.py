@@ -95,6 +95,25 @@ def create_address(address):
     return response.status_code, addr_id
 
 
+def find_existing_service(appname):
+    url = sd_base_url + sd_service_uri
+
+    payload = {}
+    headers = {
+        'Accept': 'application/vnd.juniper.sd.service-management.services+json;version=1;q=0.01',
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, data=payload, verify=False)
+
+    services = json.loads(response.text)['services']['service']
+
+    service = [service for service in services if service['name'] == appname]
+
+    return service[0]['id']
+
+
 def create_application(appname, servicename, dstport, srcport, protocol_id):
     url = sd_base_url + sd_service_uri
 
@@ -117,7 +136,7 @@ def create_application(appname, servicename, dstport, srcport, protocol_id):
 
     protocol_type = ""
 
-    if servicename == "None":
+    if servicename == "None" or servicename is None:
         return 204, None
     elif servicename in protocol_types.keys():
         protocol_type = protocol_types[servicename]
@@ -155,12 +174,16 @@ def create_application(appname, servicename, dstport, srcport, protocol_id):
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    service_id = json.loads(response.text)['service']['id']
+    if "Duplicated key" in response.text:
+        service_id = find_existing_service(appname)
+    else:
+        service_id = json.loads(response.text)['service']['id']
 
     return response.status_code, service_id
 
 
-def create_policy():
+def create_policy(**kwargs):
+    policy_name = kwargs.get("policyname", None)
     url = sd_base_url + sd_policy_uri
 
     headers = {
@@ -172,7 +195,7 @@ def create_policy():
     random_id = str(uuid.uuid4().fields[-1])[:5]
     payload = json.dumps({
         "policy": {
-            "name": "ZTN_ELK_POLICY_" + random_id,
+            "name": ("ZTN_ELK_POLICY_" + random_id) if policy_name is None else policy_name,
             "description": "Policy crated using ZTN_ELK",
             "policy-type": "GROUP",
             "showDevicesWithoutPolicy": 'false',
@@ -186,6 +209,9 @@ def create_policy():
 
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
+
+    if "already exists" in response.text:
+        return 409, None
 
     policy_id = json.loads(response.text)['policy']['id']
 
@@ -211,7 +237,8 @@ def get_rule_groupid(policy_id):
     return zone_id, global_id
 
 
-def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zone, dest_zone):
+def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zone, dest_zone, **kwargs):
+    rule_name = kwargs.get("rulename", None)
     url = sd_base_url + sd_policy_uri + "/" + str(policy_id) + "/rules"
 
     headers = {
@@ -279,18 +306,18 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zon
                 "zone": [{
                     "zone-type": "ZONE",
                     "resolved": "false",
-                    "name": "untrust",
+                    "name": dest_zone,
                     "variable-id": 0
                 }]
             },
-            "name": "ZTN_ELK_RULE_" + random_id,
+            "name": ("ZTN_ELK_RULE_" + random_id) if rule_name is None else rule_name,
             "source-zone": {
-                    "zone": [{
-                        "zone-type": "ZONE",
-                        "resolved": "false",
-                        "name": src_zone,
-                        "variable-id": 0
-                    }]
+                "zone": [{
+                    "zone-type": "ZONE",
+                    "resolved": "false",
+                    "name": src_zone,
+                    "variable-id": 0
+                }]
             },
             "source-address": {
                 "exclude-list": "false",
@@ -306,6 +333,8 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zon
 
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
+
+    print(response.text)
 
     return response.status_code
 

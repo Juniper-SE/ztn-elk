@@ -1,6 +1,5 @@
 function onChangeSrcAddr() {
     var selectBox = document.getElementById("sourceaddr")
-    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
     if (selectBox.options[selectBox.selectedIndex].id === "src_subnet") {
         document.getElementById("src_cidr").disabled = false;
@@ -15,6 +14,15 @@ function onChangeSrcPort() {
 }
 
 function onChangeDestAddr() {
+
+    var selectBox = document.getElementById("destaddr")
+
+    if (selectBox.options[selectBox.selectedIndex].id === "dest_subnet") {
+        document.getElementById("dest_cidr").disabled = false;
+    } else {
+        document.getElementById("dest_cidr").disabled = true;
+        document.getElementById("dest_cidr").value = "";
+    }
 
 }
 
@@ -52,4 +60,8 @@ function useRecommended() {
         // Set application to one from log
         document.getElementById("application").selectedIndex = 0;
     }
+}
+
+function submitEnriched() {
+
 }
