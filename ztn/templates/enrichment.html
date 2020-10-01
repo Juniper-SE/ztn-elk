@@ -45,7 +45,7 @@
                     <label for="destaddr">Destination address</label>
                 </td>
                 <td>
-                    <select name="destaddr" onchange="onChangeDestAddr()">
+                    <select id="destaddr" name="destaddr" onchange="onChangeDestAddr()">
                         <option value='{{ destaddr }}'>{{destaddr}}</option>
                         <option name="dest_subnet" id="dest_subnet" value='{{ destsubnet }}'>{{destsubnet}}</option>
                         <input type="number" placeholder="CIDR" style="width:50px" name="dest_cidr" id="dest_cidr"
