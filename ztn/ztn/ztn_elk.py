@@ -201,14 +201,14 @@ def create_policy(**kwargs):
     payload = json.dumps({
         "policy": {
             "name": ("ZTN_ELK_POLICY_" + random_id) if policy_name is None or policy_name == "" else policy_name,
-            "description": "Policy crated using ZTN_ELK",
+            "description": "Policy created using ZTN_ELK",
             "policy-type": "GROUP",
             "showDevicesWithoutPolicy": 'false',
             "policy-position": "PRE",
             "manage-zone-policy": 'true',
             "manage-global-policy": 'true',
             "ips-mode": "NONE",
-            "fwPolicy-type": "TRADITIONAL"
+            "fwPolicy-type": "UNIFIED"
         }
     })
 
@@ -276,12 +276,12 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zon
                     "web-redirect": "false",
                     "tcp-syn-check": "false",
                     "infranet-redirect": "NONE",
-                                "destination-address-translation": "NONE",
-                                "redirect": "NONE",
-                                "web-redirect-to-https": "false",
-                                "authentication-type": "NONE",
-                                "service-offload": "false",
-                                "tcp-seq-check": "false"
+                    "destination-address-translation": "NONE",
+                    "redirect": "NONE",
+                    "web-redirect-to-https": "false",
+                    "authentication-type": "NONE",
+                    "service-offload": "false",
+                    "tcp-seq-check": "false"
                 }
             },
             "rule-order": 0,
@@ -336,6 +336,7 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zon
         }
     })
 
+    print(payload)
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
