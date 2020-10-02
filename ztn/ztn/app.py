@@ -222,7 +222,7 @@ def submit_enriched_form():
 
     # Attempt to create application based off the given name, ports, and protocol id as applicable
     servicename = "any" if form['servicename'] == "None" else form['servicename']
-    create_app_status, service_id = ztn_elk.create_application(
+    create_app_status, service_id = ztn_elk.create_service(
         form['application'], servicename, form['destport'], form['sourceport'], form['protocol_id'])
 
     if create_app_status < 400:
