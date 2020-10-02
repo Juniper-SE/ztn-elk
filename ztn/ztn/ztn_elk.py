@@ -79,8 +79,6 @@ def create_address(address):
     else:
         address_type = "IPADDRESS"
 
-    print(address_type)
-
     # random_id = str(uuid.uuid4().fields[-1])[:5]
     payload = json.dumps({
         'address': {
@@ -97,7 +95,6 @@ def create_address(address):
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
-    print(response.text)
     addr_id = json.loads(response.text)['address']['id']
 
     return response.status_code, addr_id
