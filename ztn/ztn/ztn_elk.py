@@ -383,6 +383,7 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, app_name, app_id, 
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
+    print(response.text)
     return response.status_code
 
 

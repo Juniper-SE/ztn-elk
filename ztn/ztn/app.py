@@ -232,19 +232,34 @@ def submit_enriched_form():
         logging.warning("Application %s was NOT created with status code %d.",
                         form['application'], create_app_status)
 
-    # Attempt to create a policy based on the addrress objects and application created previously
-    create_policy_status, policy_id = \
-        ztn_elk.create_policy() if 'policy_name' not in form else ztn_elk.create_policy(
-            policyname=form['policy_name'])
-    if create_policy_status < 400:
-        logging.info("Policy %s created.", policy_id)
-        # Attempt to create a policy firewall rule based on the policy and associated objects created previously
-        if form['rule_name'] is None:
-            create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
-                src_addr_id, dest_addr_id, service_id, policy_id, form['srczone'], form['destzone'])
+    # Attempt to create application based off the given name, ports, and protocol id as applicable
+        servicename = "any" if form['servicename'] == "None" else form['servicename']
+        create_app_status, service_id = ztn_elk.create_service(
+            servicename, form['destport'], form['srcport'], form['protocol_id'])
+
+        if create_app_status < 300:
+            logging.info("L4 Application (Service) %s created with id %s.",
+                         servicename, service_id)
+        elif create_app_status == 302:
+            logging.info(
+                "L4 Application (Service) matching %s found, using id %s", servicename, service_id)
         else:
-            create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
-                src_addr_id, dest_addr_id, service_id, policy_id, form['srczone'], form['destzone'], rulename=form['rule_name'])
+            logging.warning("L4 Application (Service) %s was NOT created with status code %d.",
+                            servicename, create_app_status)
+
+        app_id = ztn_elk.find_application(form['application'])
+
+        # Attempt to create a policy based on the addrress objects and application created previously
+        create_policy_status, policy_id = ztn_elk.create_policy()
+        if create_policy_status < 400:
+            logging.info("Policy %s created.", policy_id)
+        else:
+            logging.warning(
+                "Policy %s NOT created with status code %d.", policy_id, create_policy_status)
+
+        # Attempt to create a policy firewall rule based on the policy and associated objects created previously
+        create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
+            src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'])
 
         if create_tradtl_rule_status < 400:
             logging.info(
@@ -252,13 +267,6 @@ def submit_enriched_form():
         else:
             logging.warning("Traditional firewall rule NOT created for policy id %s with status code %d",
                             policy_id, create_tradtl_rule_status)
-    elif create_policy_status == 409:
-        logging.warning(
-            "Policy with the same name already exists, skipping rule creation.")
-        return '''A policy with that name already exists, please go back and choose a new name.'''
-    else:
-        logging.warning(
-            "Policy %s NOT created with status code %d.", policy_id, create_policy_status)
 
     return '''The form has been submitted, you can close this page.'''
 
