@@ -74,13 +74,20 @@ def create_address(address):
         'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
     }
 
+    if "/" in address:
+        address_type = "NETWORK"
+    else:
+        address_type = "IPADDRESS"
+
+    print(address_type)
+
     # random_id = str(uuid.uuid4().fields[-1])[:5]
     payload = json.dumps({
         'address': {
             'definition-type': 'CUSTOM',
             'name': str(address),
             'description': "Address added by ZTN_ELK",
-            'address-type': 'IPADDRESS',
+            'address-type': address_type,
             'address-version': 'IPV4',
             'host-name': '',
             'ip-address': str(address)
@@ -90,6 +97,7 @@ def create_address(address):
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
+    print(response.text)
     addr_id = json.loads(response.text)['address']['id']
 
     return response.status_code, addr_id
