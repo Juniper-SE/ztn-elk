@@ -152,8 +152,10 @@ def submit_enriched_form():
 
     srcaddr = form['sourceaddr'] if 'src_cidr' not in form else form['sourceaddr'] + \
         '/' + form['src_cidr']
+    print(srcaddr)
     destaddr = form['destaddr'] if 'dest_cidr' not in form else form['destaddr'] + \
         '/' + form['dest_cidr']
+    print(destaddr)
 
     # Check if source and destination addresses already exist in SD
     src_addr_id, src_status_code = ztn_elk.check_address_exists(
