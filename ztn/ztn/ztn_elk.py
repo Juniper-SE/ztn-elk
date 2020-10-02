@@ -121,7 +121,7 @@ def find_existing_service(servicename):
     service = [service for service in services if service['name'] == servicename]
 
     if len(service) == 0:
-        return service
+        return None
 
     return service[0]['id']
 
@@ -214,7 +214,7 @@ def find_application(appname):
     app_id = [app for app in applications if app['name'] == appname]
 
     if len(app_id) == 0:
-        return app_id
+        return None
 
     return app_id[0]['id']
 
@@ -288,7 +288,7 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, app_name, app_id, 
     random_id = str(uuid.uuid4().fields[-1])[:5]
     rule_group_id_zone, rule_group_id_global = get_rule_groupid(policy_id)
 
-    if service_id is not None and len(service_id) != 0:
+    if service_id is not None:
         services = {
             "service-reference": [{
                 "id": service_id,
@@ -298,7 +298,7 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, app_name, app_id, 
     else:
         services = {}
 
-    if app_id is not None and len(app_id) != 0:
+    if app_id is not None:
         applications = {
             "reference": [{
                 "id": app_id,
