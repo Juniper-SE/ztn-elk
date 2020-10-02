@@ -16,6 +16,7 @@ sd_base_url = "https://172.25.125.101"     # security director ip/port
 sd_address_uri = "/api/juniper/sd/address-management/addresses"
 sd_service_uri = "/api/juniper/sd/service-management/services"
 sd_policy_uri = "/api/juniper/sd/policy-management/firewall/policies"
+sd_application_uri = "/api/juniper/sd/app-sig-management/app-sigs"
 
 
 def pretty_json(text):
@@ -79,7 +80,6 @@ def create_address(address):
     else:
         address_type = "IPADDRESS"
 
-    # random_id = str(uuid.uuid4().fields[-1])[:5]
     payload = json.dumps({
         'address': {
             'definition-type': 'CUSTOM',
@@ -100,7 +100,11 @@ def create_address(address):
     return response.status_code, addr_id
 
 
-def find_existing_service(appname):
+def find_existing_service(servicename):
+    """
+    Helper method to find the id of an existing service in SD
+    """
+
     url = sd_base_url + sd_service_uri
 
     payload = {}
@@ -114,12 +118,20 @@ def find_existing_service(appname):
 
     services = json.loads(response.text)['services']['service']
 
-    service = [service for service in services if service['name'] == appname]
+    service = [service for service in services if service['name'] == servicename]
+
+    if len(service) == 0:
+        return service
 
     return service[0]['id']
 
 
-def create_application(appname, servicename, dstport, srcport, protocol_id):
+def create_service(servicename, dstport, srcport, protocol_id):
+    """
+    Attempt to create a service based on the name from the log.
+    If a 'Duplicate key' response is received, grab the ID from the existing service.
+    """
+
     url = sd_base_url + sd_service_uri
 
     headers = {
@@ -128,7 +140,6 @@ def create_application(appname, servicename, dstport, srcport, protocol_id):
         'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
     }
 
-    # random_id = str(uuid.uuid4().fields[-1])[:5]
     protocol_types = {
         'tcp': 'PROTOCOL_TCP',
         'udp': 'PROTOCOL_UDP',
@@ -151,7 +162,7 @@ def create_application(appname, servicename, dstport, srcport, protocol_id):
     payload = json.dumps({
         "service": {
             "is-group": "false",
-            "name": appname,
+            "name": servicename,
             "description": "Service automatically created by ZTN_ELK",
             "application-services": "",
             "protocols": {
@@ -175,16 +186,37 @@ def create_application(appname, servicename, dstport, srcport, protocol_id):
         }
     })
 
-    # payload = {}
     response = requests.request(
         "POST", url, headers=headers, data=payload, verify=False)
 
     if "Duplicated key" in response.text:
-        service_id = find_existing_service(appname)
+        service_id = find_existing_service(servicename)
+        return 302, service_id
     else:
         service_id = json.loads(response.text)['service']['id']
+        return response.status_code, service_id
 
-    return response.status_code, service_id
+
+def find_application(appname):
+    url = sd_base_url + sd_application_uri
+
+    payload = {}
+    headers = {
+        'Accept': 'application/vnd.juniper.sd.app-sig-management.app-sig-refs+json;version=1;q=0.01',
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, data=payload, verify=False)
+
+    applications = json.loads(response.text)['app-sigs']['app-sig']
+
+    app_id = [app for app in applications if app['name'] == appname]
+
+    if len(app_id) == 0:
+        return app_id
+
+    return app_id[0]['id']
 
 
 def create_policy(**kwargs):
@@ -242,7 +274,7 @@ def get_rule_groupid(policy_id):
     return zone_id, global_id
 
 
-def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zone, dest_zone, **kwargs):
+def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, app_id, policy_id, src_zone, dest_zone, **kwargs):
     rule_name = kwargs.get("rulename", None)
     url = sd_base_url + sd_policy_uri + "/" + str(policy_id) + "/rules"
 
@@ -256,7 +288,7 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zon
     random_id = str(uuid.uuid4().fields[-1])[:5]
     rule_group_id_zone, rule_group_id_global = get_rule_groupid(policy_id)
 
-    if service_id is not None:
+    if service_id is not None or len(service_id) == 0:
         services = {
             "service-reference": [{
                 "id": service_id,
@@ -265,6 +297,15 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zon
         }
     else:
         services = {}
+
+    if app_id is not None or len(app_id) == 0:
+        applications = {
+            "reference": [{
+                "id": app_id
+            }]
+        }
+    else:
+        applications = {}
 
     payload = json.dumps({
         "rule": {
@@ -302,10 +343,11 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, policy_id, src_zon
             "rule-group-id": rule_group_id_zone,
             "scheduler": {},
             "services": services,
+            "applications": applications,
             "action": "DENY",
             "sec-intel-policy": {},
             "custom-column-data": "",
-            "description": "created using automation",
+            "description": "created using ZTN_ELK automation",
             "sourceidentities": {},
             "destination-zone": {
                 "zone": [{

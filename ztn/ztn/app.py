@@ -90,14 +90,19 @@ def index():
         # Attempt to create application based off the given name, ports, and protocol id as applicable
         servicename = "any" if content['servicename'] == "None" else content['servicename']
         create_app_status, service_id = ztn_elk.create_application(
-            content['application'], servicename, content['destport'], content['srcport'], content['protocol_id'])
+            servicename, content['destport'], content['srcport'], content['protocol_id'])
 
-        if create_app_status < 400:
-            logging.info("Application %s created with id %s.",
-                         content['application'], service_id)
+        if create_app_status < 300:
+            logging.info("L4 Application (Service) %s created with id %s.",
+                         servicename, service_id)
+        elif create_app_status == 302:
+            logging.info(
+                "L4 Application (Service) matching %s found, using id %s", servicename, service_id)
         else:
-            logging.warning("Application %s was NOT created with status code %d.",
-                            content['application'], create_app_status)
+            logging.warning("L4 Application (Service) %s was NOT created with status code %d.",
+                            servicename, create_app_status)
+
+        app_id = ztn_elk.find_application(content['application'])
 
         # Attempt to create a policy based on the addrress objects and application created previously
         create_policy_status, policy_id = ztn_elk.create_policy()
@@ -109,7 +114,7 @@ def index():
 
         # Attempt to create a policy firewall rule based on the policy and associated objects created previously
         create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
-            src_addr_id, dest_addr_id, service_id, policy_id, content['srczone'], content['destzone'])
+            src_addr_id, dest_addr_id, service_id, app_id, policy_id, content['srczone'], content['destzone'])
 
         if create_tradtl_rule_status < 400:
             logging.info(
