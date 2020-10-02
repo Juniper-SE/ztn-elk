@@ -114,7 +114,7 @@ def index():
 
         # Attempt to create a policy firewall rule based on the policy and associated objects created previously
         create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
-            src_addr_id, dest_addr_id, service_id, app_id, policy_id, content['srczone'], content['destzone'])
+            src_addr_id, dest_addr_id, service_id, content['application'], app_id, policy_id, content['srczone'], content['destzone'])
 
         if create_tradtl_rule_status < 400:
             logging.info(

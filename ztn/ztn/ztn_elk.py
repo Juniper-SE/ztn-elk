@@ -274,7 +274,7 @@ def get_rule_groupid(policy_id):
     return zone_id, global_id
 
 
-def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, app_id, policy_id, src_zone, dest_zone, **kwargs):
+def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, app_name, app_id, policy_id, src_zone, dest_zone, **kwargs):
     rule_name = kwargs.get("rulename", None)
     url = sd_base_url + sd_policy_uri + "/" + str(policy_id) + "/rules"
 
@@ -301,7 +301,8 @@ def create_tradtl_rule(src_addr_id, dest_addr_id, service_id, app_id, policy_id,
     if app_id is not None or len(app_id) == 0:
         applications = {
             "reference": [{
-                "id": app_id
+                "id": app_id,
+                "name": app_name
             }]
         }
     else:
