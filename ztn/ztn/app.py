@@ -103,11 +103,6 @@ def index():
             logging.warning("L4 Application (Service) %s was NOT created with status code %d.",
                             servicename, create_app_status)
 
-        if content['nested_app'] != "%{{nested_app}}":
-            app_id = ztn_elk.find_application(content['nested_app'])
-        else:
-            app_id = ztn_elk.find_application(content['application'])
-
         # Attempt to create a policy based on the addrress objects and application created previously
         create_policy_status, policy_id = ztn_elk.create_policy()
         if create_policy_status < 400:
@@ -117,8 +112,16 @@ def index():
                 "Policy %s NOT created with status code %d.", policy_id, create_policy_status)
 
         # Attempt to create a policy firewall rule based on the policy and associated objects created previously
-        create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
-            src_addr_id, dest_addr_id, service_id, content['application'], app_id, policy_id, content['srczone'], content['destzone'])
+        if content['nested_app'] != "%{{nested_app}}":
+            app_id = ztn_elk.find_application(content['nested_app'])
+
+            create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
+                src_addr_id, dest_addr_id, service_id, content['nested_app'], app_id, policy_id, content['srczone'], content['destzone'])
+        else:
+            app_id = ztn_elk.find_application(content['application'])
+
+            create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
+                src_addr_id, dest_addr_id, service_id, content['application'], app_id, policy_id, content['srczone'], content['destzone'])
 
         if create_tradtl_rule_status < 400:
             logging.info(
@@ -146,7 +149,7 @@ def enriched_data():
         "srczone": str(args['srczone']),
         "destzone": str(args['destzone']),
         "application": str(args['application']),
-        "nested_application": str(args['nested_app']),
+        "nested_app": str(args['nested_app']),
         "username": str(args['username']),
         "protocol_id": str(args['protocol_id']),
         "qs": request.query_string.decode('utf-8')

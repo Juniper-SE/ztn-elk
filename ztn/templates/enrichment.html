@@ -120,8 +120,16 @@
                 </td>
                 <td>
                     <select name="application" id="application" onchange="onChangeApplication()">
+                        {% if nested_app != "%{nested_app}" %}
+                        <option value='{{ nested_app }}'>{{nested_app}}</option>
+                        {% elif application != "%{application}" %}
+                        <option value='{{ application }}'>{{application}}</option>
+                        {% else %}
+                        <option value='None'>None</option>
+                        {% endif %}
                         <option value='{{ application }}'>{{application}}</option>
                         <option name="application_any" value='any'>any</option>
+                        <option value='None'>None</option>
                     </select>
                 </td>
             </tr>
