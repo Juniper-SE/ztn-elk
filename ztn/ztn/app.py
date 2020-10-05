@@ -103,7 +103,10 @@ def index():
             logging.warning("L4 Application (Service) %s was NOT created with status code %d.",
                             servicename, create_app_status)
 
-        app_id = ztn_elk.find_application(content['application'])
+        if content['nested_app'] != "%{{nested_app}}":
+            app_id = ztn_elk.find_application(content['nested_app'])
+        else:
+            app_id = ztn_elk.find_application(content['application'])
 
         # Attempt to create a policy based on the addrress objects and application created previously
         create_policy_status, policy_id = ztn_elk.create_policy()
