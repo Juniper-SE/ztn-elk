@@ -221,18 +221,6 @@ def submit_enriched_form():
             "Destination address object with same IP %s exists, skipping creation.", destaddr)
 
     # Attempt to create application based off the given name, ports, and protocol id as applicable
-    servicename = "any" if form['servicename'] == "None" else form['servicename']
-    create_app_status, service_id = ztn_elk.create_service(
-        servicename, form['destport'], form['sourceport'], form['protocol_id'])
-
-    if create_app_status < 400:
-        logging.info("Application %s created with id %s.",
-                     form['application'], service_id)
-    else:
-        logging.warning("Application %s was NOT created with status code %d.",
-                        form['application'], create_app_status)
-
-    # Attempt to create application based off the given name, ports, and protocol id as applicable
         servicename = "any" if form['servicename'] == "None" else form['servicename']
         create_app_status, service_id = ztn_elk.create_service(
             servicename, form['destport'], form['srcport'], form['protocol_id'])

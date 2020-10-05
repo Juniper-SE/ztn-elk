@@ -1,6 +1,6 @@
 """
     Makes API calls to Junos Space Security Director for each
-     qqqstep of a workflow.
+    step of a workflow.
 """
 
 import requests
