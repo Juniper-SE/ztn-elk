@@ -236,6 +236,7 @@ def submit_enriched_form():
                         servicename, create_app_status)
 
     app_id = ztn_elk.find_application(form['application'])
+    print(app_id)
 
     # Attempt to create a policy based on the addrress objects and application created previously
     if form['policy_name']:
