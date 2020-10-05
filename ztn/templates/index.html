@@ -37,7 +37,11 @@
         </tr>
         <tr>
             <td>Application</td>
+            {% if application is not '%{application}' %}
             <td>{{ application }}</td>
+            {% else %}
+            <td>None</td>
+            {% endif %}
         </tr>
         <tr>
             <td>Username</td>
