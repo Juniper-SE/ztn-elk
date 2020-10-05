@@ -238,7 +238,12 @@ def submit_enriched_form():
     app_id = ztn_elk.find_application(form['application'])
 
     # Attempt to create a policy based on the addrress objects and application created previously
-    create_policy_status, policy_id = ztn_elk.create_policy()
+    if form['policy_name']:
+        create_policy_status, policy_id = ztn_elk.create_policy(
+            policyname=form['policy_name'])
+    else:
+        create_policy_status, policy_id = ztn_elk.create_policy()
+
     if create_policy_status < 400:
         logging.info("Policy %s created.", policy_id)
     else:
@@ -246,8 +251,12 @@ def submit_enriched_form():
             "Policy %s NOT created with status code %d.", policy_id, create_policy_status)
 
     # Attempt to create a policy firewall rule based on the policy and associated objects created previously
-    create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
-        src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'])
+    if form['rule_name']:
+        create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
+            src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'], rulename=form['rule_name'])
+    else:
+        create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
+            src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'])
 
     if create_tradtl_rule_status < 400:
         logging.info(
