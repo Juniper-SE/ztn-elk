@@ -23,6 +23,7 @@ def index():
         "srczone": str(args['srczone']),
         "destzone": str(args['destzone']),
         "application": str(args['application']),
+        "nested_application": str(args['nested_app']),
         "username": str(args['username']),
         "protocol_id": str(args['protocol_id']),
         "qs": request.query_string.decode('utf-8')
@@ -142,6 +143,7 @@ def enriched_data():
         "srczone": str(args['srczone']),
         "destzone": str(args['destzone']),
         "application": str(args['application']),
+        "nested_application": str(args['nested_app']),
         "username": str(args['username']),
         "protocol_id": str(args['protocol_id']),
         "qs": request.query_string.decode('utf-8')

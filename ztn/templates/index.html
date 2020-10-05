@@ -38,7 +38,11 @@
         <tr>
             <td>Application</td>
             {% if application != "%{application}" %}
+            {% if nested_app != "%{nested_app}" %}
+            <td>{{ nested_app }}</td>
+            {% else %}
             <td>{{ application }}</td>
+            {% endif %}
             {% else %}
             <td>None</td>
             {% endif %}
