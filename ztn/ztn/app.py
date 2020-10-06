@@ -248,8 +248,13 @@ def submit_enriched_form():
     if form['policy_name']:
         create_policy_status, policy_id = ztn_elk.create_policy(
             policyname=form['policy_name'])
+    else:
+        create_policy_status, policy_id = ztn_elk.create_policy()
 
-        time.sleep(2)
+    if create_policy_status < 400:
+        logging.info("Policy %s created.", policy_id)
+
+        time.sleep(3)
         # Attempt to create a policy firewall rule based on the policy and associated objects created previously
         if form['rule_name']:
             create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
@@ -263,12 +268,7 @@ def submit_enriched_form():
                 "Traditional firewall rule created for policy id %s", policy_id)
         else:
             logging.warning("Traditional firewall rule NOT created for policy id %s with status code %d",
-                            policy_id, create_tradtl_rule_status)
-    else:
-        create_policy_status, policy_id = ztn_elk.create_policy()
-
-    if create_policy_status < 400:
-        logging.info("Policy %s created.", policy_id)
+                            policy_id, create_tradtl_rule_status)s
     else:
         logging.warning(
             "Policy %s NOT created with status code %d.", policy_id, create_policy_status)
