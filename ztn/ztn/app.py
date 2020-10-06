@@ -248,6 +248,22 @@ def submit_enriched_form():
     if form['policy_name']:
         create_policy_status, policy_id = ztn_elk.create_policy(
             policyname=form['policy_name'])
+
+        time.sleep(2)
+        # Attempt to create a policy firewall rule based on the policy and associated objects created previously
+        if form['rule_name']:
+            create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
+                src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'], rulename=form['rule_name'])
+        else:
+            create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
+                src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'])
+
+        if create_tradtl_rule_status < 400:
+            logging.info(
+                "Traditional firewall rule created for policy id %s", policy_id)
+        else:
+            logging.warning("Traditional firewall rule NOT created for policy id %s with status code %d",
+                            policy_id, create_tradtl_rule_status)
     else:
         create_policy_status, policy_id = ztn_elk.create_policy()
 
@@ -256,22 +272,6 @@ def submit_enriched_form():
     else:
         logging.warning(
             "Policy %s NOT created with status code %d.", policy_id, create_policy_status)
-
-    time.sleep(5)
-    # Attempt to create a policy firewall rule based on the policy and associated objects created previously
-    if form['rule_name']:
-        create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
-            src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'], rulename=form['rule_name'])
-    else:
-        create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
-            src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'])
-
-    if create_tradtl_rule_status < 400:
-        logging.info(
-            "Traditional firewall rule created for policy id %s", policy_id)
-    else:
-        logging.warning("Traditional firewall rule NOT created for policy id %s with status code %d",
-                        policy_id, create_tradtl_rule_status)
 
     return '''The form has been submitted, you can close this page.'''
 
