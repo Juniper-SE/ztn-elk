@@ -3,7 +3,7 @@ import ztn_elk
 import os
 import logging
 import json
-
+import time
 app = Flask(__name__, template_folder="../templates")
 
 # Logging configuration
@@ -257,6 +257,7 @@ def submit_enriched_form():
         logging.warning(
             "Policy %s NOT created with status code %d.", policy_id, create_policy_status)
 
+    time.sleep(5)
     # Attempt to create a policy firewall rule based on the policy and associated objects created previously
     if form['rule_name']:
         create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
