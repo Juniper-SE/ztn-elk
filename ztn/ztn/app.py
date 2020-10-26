@@ -179,6 +179,7 @@ def enriched_data():
             print('No selected file')
             return render_template("enrichment.html", **content)
         if file and allowed_file(file.filename):
+            print("acceptable file, attempting to save")
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
