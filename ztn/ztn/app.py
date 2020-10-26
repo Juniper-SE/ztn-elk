@@ -4,9 +4,10 @@ import os
 import logging
 import json
 import time
+import yaml
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = '../uploads'
+UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'csv'}
 
 app = Flask(__name__, template_folder="../templates")
@@ -180,6 +181,7 @@ def enriched_data():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
             return render_template("enrichment.html", **content)
 
     return render_template("enrichment.html", **content)
