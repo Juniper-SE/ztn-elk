@@ -9,7 +9,15 @@
 
 <body style="margin:4px;padding:4px">
     This page allows you to make changes to the fields automatically pulled from logs.
+    If you'd like to upload a file with IPs, subnets, users/groups, and zones, you can upload a CSV file. Please follow the format:
+    <code>subnets(CIDR), AD names, AD groups, zone names</code>
     <hr />
+
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
 
     <input type="checkbox" id="recommended" value="recommended" onchange="useRecommended()">
     <label for="recommended">Use recommended values?</label>
