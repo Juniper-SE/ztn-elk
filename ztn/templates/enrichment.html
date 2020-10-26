@@ -65,6 +65,11 @@
                 </td>
                 <td>
                     <select id="destaddr" name="destaddr" onchange="onChangeDestAddr()">
+                        {% if subnets %}
+                        {% for subnet in subnets %}
+                        <option value='{{ subnet }}'>{{ subnet }}</option>
+                        {% endfor %}
+                        {% endif %}
                         <option value='{{ destaddr }}'>{{destaddr}}</option>
                         <option name="dest_subnet" id="dest_subnet" value='{{ destsubnet }}'>{{destsubnet}}</option>
                         <input type="number" placeholder="CIDR" style="width:50px" name="dest_cidr" id="dest_cidr"
@@ -90,6 +95,11 @@
                 </td>
                 <td>
                     <select name="srczone" id="srczone" onchange="onChangeSrcZone()">
+                        {% if zones %}
+                        {% for zone in zones %}
+                        <option value='{{ zone }}'>{{ zone }}</option>
+                        {% endfor %}
+                        {% endif %}
                         <option value='{{ srczone }}'>{{srczone}}</option>
                         <option name="srczone_any" value='any'>any</option>
                         <option name="srczone_trust" value='trust'>trust</option>
@@ -104,6 +114,11 @@
                 </td>
                 <td>
                     <select name="destzone" id="destzone" onchange="onChangeDestZone()">
+                        {% if zones %}
+                        {% for zone in zones %}
+                        <option value='{{ zone }}'>{{ zone }}</option>
+                        {% endfor %}
+                        {% endif %}
                         <option value='{{ destzone }}'>{{destzone}}</option>
                         <option name="destzone_any" value='any'>any</option>
                         <option name="srczone_trust" value='trust'>trust</option>
@@ -113,12 +128,21 @@
             </tr>
             <tr>
                 <td>
-                    <label for="username">Username</label>
+                    <label for="username">Username or group</label>
                 </td>
                 <td>
                     <select name="username" id="username" onchange="onChangeUsername()">
                         <option value='{{ username }}'>{{username}}</option>
-                        <option name="username_group" value='group'>group</option>
+                        {% if ad_groups %}
+                        {% for group in ad_groups %}
+                        <option value='{{ group }}'>{{ group }}</option>
+                        {% endfor %}
+                        {% endif %}
+                        {% if ad_names %}
+                        {% for user in ad_names %}
+                        <option value='{{ user }}'>{{ user }}</option>
+                        {% endfor %}
+                        {% endif %}
                     </select>
                 </td>
             </tr>
