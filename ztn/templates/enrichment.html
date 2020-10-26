@@ -36,14 +36,19 @@
                 </td>
                 <td>
                     <select id="sourceaddr" name="sourceaddr" onchange="onChangeSrcAddr()">
+                        {% if subnets %}
                         <option value='{{ srcaddr }}'>{{srcaddr}}</option>
                         <option name="src_subnet" id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
                         <input type="number" placeholder="CIDR" style="width:50px" name="src_cidr" id="src_cidr"
                             disabled min="8" max="32">
-                        {% if subnets %}
-                            {% for subnet in subnets %}
+                        {% for subnet in subnets %}
                             <option value='{{ subnet }}'>{{ subnet }}</option>
-                            {% endfor %}
+                        {% endfor %}
+                        {% else %}
+                        <option value='{{ srcaddr }}'>{{srcaddr}}</option>
+                        <option name="src_subnet" id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
+                        <input type="number" placeholder="CIDR" style="width:50px" name="src_cidr" id="src_cidr"
+                            disabled min="8" max="32">
                         {% endif %}
                     </select>
                 </td>
