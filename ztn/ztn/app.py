@@ -194,11 +194,10 @@ def enriched_data():
 
             json_from_yaml = process_enrichment_file(filename)
             print(json_from_yaml)
-            content['subnets'] = json_from_yaml['subnets']
-            print(json_from_yaml['subnets'])
-            content['ad_names'] = json_from_yaml['ad_names']
-            content['ad_groups'] = json_from_yaml['ad_groups']
-            content['zones'] = json_from_yaml['zones']
+            content['subnets'] = json_from_yaml['subnets'].split(',')
+            content['ad_names'] = json_from_yaml['ad_names'].split(',')
+            content['ad_groups'] = json_from_yaml['ad_groups'].split(',')
+            content['zones'] = json_from_yaml['zones'].split(',')
 
             return render_template("enrichment.html", **content)
 
