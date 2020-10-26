@@ -147,6 +147,14 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def process_enrichment_file(filename):
+    with open(filename, 'r') as stream:
+        try:
+            print(yaml.safe_load(stream))
+        except yaml.YAMLError as exc:
+            print(exc)
+
+
 @app.route('/enrichment', methods=['GET', 'POST'])
 def enriched_data():
     args = request.args
@@ -182,6 +190,8 @@ def enriched_data():
             print("acceptable file, attempting to save")
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            process_enrichment_file(filename)
 
             return render_template("enrichment.html", **content)
 
