@@ -40,12 +40,11 @@
                         {% for subnet in subnets %}
                         <option value='{{ subnet }}'>{{ subnet }}</option>
                         {% endfor %}
-                        {% else %}
+                        {% endif %}
                         <option value='{{ srcaddr }}'>{{srcaddr}}</option>
                         <option name="src_subnet" id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
                         <input type="number" placeholder="CIDR" style="width:50px" name="src_cidr" id="src_cidr"
                             disabled min="8" max="32">
-                        {% endif %}
                     </select>
                 </td>
             </tr>
