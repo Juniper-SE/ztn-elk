@@ -10,8 +10,6 @@ from time import sleep
 import uuid
 
 # API URLs + headers
-ecs_base_url = "http://172.16.30.142:9200"  # elasticsearch ip
-
 sd_base_url = "https://172.25.125.101"     # security director ip/port
 sd_address_uri = "/api/juniper/sd/address-management/addresses"
 sd_service_uri = "/api/juniper/sd/service-management/services"
