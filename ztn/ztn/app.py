@@ -150,9 +150,10 @@ def allowed_file(filename):
 def process_enrichment_file(filename):
     with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'r') as stream:
         try:
-            print(yaml.safe_load(stream))
+            return yaml.safe_load(stream)
         except yaml.YAMLError as exc:
             print(exc)
+            return None
 
 
 @app.route('/enrichment', methods=['GET', 'POST'])
@@ -191,7 +192,11 @@ def enriched_data():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            process_enrichment_file(filename)
+            json_from_yaml = process_enrichment_file(filename)
+            content['subnets'] = json_from_yaml['subnets']
+            content['ad_names'] = json_from_yaml['ad_names']
+            content['ad_groups'] = json_from_yaml['ad_groups']
+            content['zones'] = json_from_yaml['zones']
 
             return render_template("enrichment.html", **content)
 
