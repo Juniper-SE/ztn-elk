@@ -18,19 +18,20 @@
         <br/>subnets: 192.15.12.0/24,192.15.13.0/24,192.15.14.0/24
         <br/>zones: it,bus,corp
         </code>
+    <br/>Please note that uploading a file with the same name will overwrite the old one.
     <hr />
 
-    <h4>Upload new file</h4>
+    Upload new file
     <form method=post enctype='multipart/form-data'>
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>
 
-    <h4>Already uploaded files</h4>
+    Already uploaded files
     {% if files %}
     {% for file in files %}
         <code>
-           <br/>{{ file }}
+           {{ file }}<br/>
         </code>
     {% endfor %}
     {% endif %}
