@@ -10,7 +10,8 @@
 <body style="margin:4px;padding:4px">
     This page allows you to make changes to the fields automatically pulled from logs.
     <br/>If you'd like to upload a file with IPs, subnets, users/groups, and zones, you can upload a YAML file. Please follow the format:
-    <br/><code>
+    <br/>
+        <code>
         ---
         <br/>ad_groups: one,two,three
         <br/>ad_names: natzberg,sandeepr,tvmeter
@@ -100,7 +101,7 @@
                         <option value='{{ zone }}'>{{ zone }}</option>
                         {% endfor %}
                         {% endif %}
-                        <option value='{{ srczone }}'>{{srczone}}</option>
+                        <option value='{{ srczone }}' id="log_src_zone">{{srczone}}</option>
                         <option name="srczone_any" value='any'>any</option>
                         <option name="srczone_trust" value='trust'>trust</option>
                         <option name="srczone_untrust" value='untrust'>untrust</option>
@@ -119,7 +120,7 @@
                         <option value='{{ zone }}'>{{ zone }}</option>
                         {% endfor %}
                         {% endif %}
-                        <option value='{{ destzone }}'>{{destzone}}</option>
+                        <option value='{{ destzone }}' id="log_dest_zone">{{destzone}}</option>
                         <option name="destzone_any" value='any'>any</option>
                         <option name="srczone_trust" value='trust'>trust</option>
                         <option name="srczone_untrust" value='untrust'>untrust</option>
@@ -132,7 +133,7 @@
                 </td>
                 <td>
                     <select name="username" id="username" onchange="onChangeUsername()">
-                        <option value='{{ username }}'>{{username}}</option>
+                        <option value='{{ username }}' id="log_username">{{username}}</option>
                         {% if ad_groups %}
                         {% for group in ad_groups %}
                         <option value='{{ group }}'>{{ group }}</option>

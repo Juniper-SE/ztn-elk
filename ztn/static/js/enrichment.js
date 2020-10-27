@@ -35,7 +35,7 @@ function useRecommended() {
 
     if (isChecked) {
         // Set source address to subnet + /24 cidr
-        document.getElementById("sourceaddr").selectedIndex = 1;
+        document.getElementById("sourceaddr").selectedIndex = document.getElementById("src_subnet").index;
         document.getElementById("src_cidr").value = 24;
         document.getElementById("src_cidr").disabled = false;
 
@@ -43,19 +43,19 @@ function useRecommended() {
         document.getElementById("sourceport").selectedIndex = 0;
 
         // Set destination address to subnet + /24 cidr
-        document.getElementById("destaddr").selectedIndex = 1;
+        document.getElementById("destaddr").selectedIndex = document.getElementById("dest_subnet").index;
         document.getElementById("dest_cidr").value = 24;
         document.getElementById("dest_cidr").disabled = false;
 
         // Set dest port to specific port
-        document.getElementById("destport").selectedIndex = 0;
+        document.getElementById("destport").selectedIndex = ;
 
         // Set source + dest zone to value from log
-        document.getElementById("srczone").selectedIndex = 0;
-        document.getElementById("destzone").selectedIndex = 0;
+        document.getElementById("srczone").selectedIndex = document.getElementById("log_src_zone").index;
+        document.getElementById("destzone").selectedIndex = document.getElementById("log_dest_zone").index;
 
         // Set username to one from log
-        document.getElementById("username").selectedIndex = 0;
+        document.getElementById("username").selectedIndex = document.getElementById("log_username").index;
 
         // Set application to one from log
         document.getElementById("application").selectedIndex = 0;
