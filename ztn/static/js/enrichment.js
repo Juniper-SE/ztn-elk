@@ -34,10 +34,12 @@ function useRecommended() {
     var isChecked = document.getElementById("recommended").checked;
 
     if (isChecked) {
-        var subnets = "{{ subnets }}";
+        var subnets = '{{ subnets }}';
+        console.log(subnets);
+        console.log(subnets.length);
         // Set source address to subnet + /24 cidr
         document.getElementById("sourceaddr").selectedIndex = document.getElementById("src_subnet").index + subnets.length;
-        console.log(subnets.length);
+
         document.getElementById("src_cidr").value = 24;
         document.getElementById("src_cidr").disabled = false;
 
