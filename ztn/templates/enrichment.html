@@ -28,6 +28,7 @@
     </form>
 
     Already uploaded files
+    <br/>
     {% if files %}
     {% for file in files %}
         <code>
@@ -36,6 +37,7 @@
     {% endfor %}
     {% endif %}
 
+    <hr/>
     <input type="checkbox" id="recommended" value="recommended" onchange="useRecommended()">
     <label for="recommended">Use recommended values?</label>
 
