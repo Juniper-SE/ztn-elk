@@ -41,11 +41,16 @@
                         {% for subnet in subnets %}
                         <option value='{{ subnet }}'>{{ subnet }}</option>
                         {% endfor %}
-                        {% endif %}
                         <option value='{{ srcaddr }}'>{{srcaddr}}</option>
                         <option name="src_subnet" id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
                         <input type="number" placeholder="CIDR" style="width:50px" name="src_cidr" id="src_cidr"
                             disabled min="8" max="32">
+                        {% else %}
+                        <option value='{{ srcaddr }}'>{{srcaddr}}</option>
+                        <option name="src_subnet" id="src_subnet" value='{{ srcsubnet }}'>{{srcsubnet}}</option>
+                        <input type="number" placeholder="CIDR" style="width:50px" name="src_cidr" id="src_cidr"
+                            disabled min="8" max="32">
+                        {% endif %}
                     </select>
                 </td>
             </tr>
@@ -70,11 +75,17 @@
                         {% for subnet in subnets %}
                         <option value='{{ subnet }}'>{{ subnet }}</option>
                         {% endfor %}
-                        {% endif %}
                         <option value='{{ destaddr }}'>{{destaddr}}</option>
                         <option name="dest_subnet" id="dest_subnet" value='{{ destsubnet }}'>{{destsubnet}}</option>
                         <input type="number" placeholder="CIDR" style="width:50px" name="dest_cidr" id="dest_cidr"
                             disabled min="8" max="32">
+                        {% else %}
+                        <option value='{{ destaddr }}'>{{destaddr}}</option>
+                        <option name="dest_subnet" id="dest_subnet" value='{{ destsubnet }}'>{{destsubnet}}</option>
+                        <input type="number" placeholder="CIDR" style="width:50px" name="dest_cidr" id="dest_cidr"
+                            disabled min="8" max="32">
+                        {% endif %}
+
                     </select>
                 </td>
             </tr>
