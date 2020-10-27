@@ -27,14 +27,12 @@
       <input type=submit value=Upload>
     </form>
 
-    Already uploaded files
+    File in use
     <br/>
-    {% if files %}
-    {% for file in files %}
-        <code>
-           {{ file }}<br/>
-        </code>
-    {% endfor %}
+    {% if file %}
+    <code>
+        {{ file }}
+    </code>
     {% endif %}
 
     <hr/>
