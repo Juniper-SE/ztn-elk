@@ -193,11 +193,12 @@ def enriched_data():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
             json_from_yaml = process_enrichment_file(filename)
-            print(json_from_yaml)
+
             content['subnets'] = json_from_yaml['subnets'].split(',')
             content['ad_names'] = json_from_yaml['ad_names'].split(',')
             content['ad_groups'] = json_from_yaml['ad_groups'].split(',')
             content['zones'] = json_from_yaml['zones'].split(',')
+            content['files'] = os.listdir(app.config['UPLOAD_FOLDER'])
 
             return render_template("enrichment.html", **content)
 

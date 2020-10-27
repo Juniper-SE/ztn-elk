@@ -20,11 +20,20 @@
         </code>
     <hr />
 
-    Upload new File
+    <h4>Upload new file</h4>
     <form method=post enctype='multipart/form-data'>
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>
+
+    <h4>Already uploaded files</h4>
+    {% if files %}
+    {% for file in files %}
+        <code>
+           <br/>{{ file }}
+        </code>
+    {% endfor %}
+    {% endif %}
 
     <input type="checkbox" id="recommended" value="recommended" onchange="useRecommended()">
     <label for="recommended">Use recommended values?</label>
