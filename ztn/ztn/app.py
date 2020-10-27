@@ -147,10 +147,16 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def process_enrichment_file(filename):
+def process_enrichment_file(filename, content):
     with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'r') as stream:
         try:
-            return yaml.safe_load(stream)
+            json_obj = yaml.safe_load(stream)
+
+            content['subnets'].extend(json_obj['subnets'].split(','))
+            content['ad_names'].extend(json_obj['ad_names'].split(','))
+            content['ad_groups'].extend(json_obj['ad_groups'].split(','))
+            content['zones'].extend(json_obj['zones'].split(','))
+            content['files'] = os.listdir(app.config['UPLOAD_FOLDER'])
         except yaml.YAMLError as exc:
             print(exc)
             return None
@@ -173,7 +179,12 @@ def enriched_data():
         "nested_app": str(args['nested_app']),
         "username": str(args['username']),
         "protocol_id": str(args['protocol_id']),
-        "qs": request.query_string.decode('utf-8')
+        "qs": request.query_string.decode('utf-8'),
+        "subnets": [],
+        "ad_names": [],
+        "ad_grouops": [],
+        "zones": [],
+        "files": []
     }
 
     if request.method == 'POST':
@@ -192,13 +203,7 @@ def enriched_data():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            json_from_yaml = process_enrichment_file(filename)
-
-            content['subnets'] = json_from_yaml['subnets'].split(',')
-            content['ad_names'] = json_from_yaml['ad_names'].split(',')
-            content['ad_groups'] = json_from_yaml['ad_groups'].split(',')
-            content['zones'] = json_from_yaml['zones'].split(',')
-            content['files'] = os.listdir(app.config['UPLOAD_FOLDER'])
+            json_from_yaml = process_enrichment_file(filename, content)
 
             return render_template("enrichment.html", **content)
 
