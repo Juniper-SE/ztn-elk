@@ -152,10 +152,10 @@ def process_enrichment_file(filename, content):
         try:
             json_obj = yaml.safe_load(stream)
 
-            content['subnets'].extend(json_obj['subnets'].split(','))
-            content['ad_names'].extend(json_obj['ad_names'].split(','))
-            content['ad_groups'].extend(json_obj['ad_groups'].split(','))
-            content['zones'].extend(json_obj['zones'].split(','))
+            content['subnets'].extend(set(json_obj['subnets'].split(',')))
+            content['ad_names'].extend(set(json_obj['ad_names'].split(',')))
+            content['ad_groups'].extend(set(json_obj['ad_groups'].split(',')))
+            content['zones'].extend(set(json_obj['zones'].split(',')))
             content['file'] = filename
         except yaml.YAMLError as exc:
             print(exc)
