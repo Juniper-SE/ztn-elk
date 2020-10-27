@@ -34,8 +34,9 @@ function useRecommended() {
     var isChecked = document.getElementById("recommended").checked;
 
     if (isChecked) {
+        var subnets = "{{ subnets }}";
         // Set source address to subnet + /24 cidr
-        document.getElementById("sourceaddr").selectedIndex = document.getElementById("src_subnet").index;
+        document.getElementById("sourceaddr").selectedIndex = document.getElementById("src_subnet").index + subnets.length;
         document.getElementById("src_cidr").value = 24;
         document.getElementById("src_cidr").disabled = false;
 
@@ -43,7 +44,7 @@ function useRecommended() {
         document.getElementById("sourceport").selectedIndex = 0;
 
         // Set destination address to subnet + /24 cidr
-        document.getElementById("destaddr").selectedIndex = document.getElementById("dest_subnet").index;
+        document.getElementById("destaddr").selectedIndex = document.getElementById("dest_subnet").index + subnets.length;
         document.getElementById("dest_cidr").value = 24;
         document.getElementById("dest_cidr").disabled = false;
 
