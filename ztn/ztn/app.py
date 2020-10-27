@@ -182,7 +182,7 @@ def enriched_data():
         "qs": request.query_string.decode('utf-8'),
         "subnets": [],
         "ad_names": [],
-        "ad_grouops": [],
+        "ad_groups": [],
         "zones": [],
         "files": []
     }
