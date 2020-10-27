@@ -156,7 +156,7 @@ def process_enrichment_file(filename, content):
             content['ad_names'].extend(json_obj['ad_names'].split(','))
             content['ad_groups'].extend(json_obj['ad_groups'].split(','))
             content['zones'].extend(json_obj['zones'].split(','))
-            content['files'] = os.listdir(app.config['UPLOAD_FOLDER'])
+            content['file'] = filename
         except yaml.YAMLError as exc:
             print(exc)
             return None
@@ -184,7 +184,7 @@ def enriched_data():
         "ad_names": [],
         "ad_groups": [],
         "zones": [],
-        "files": []
+        "file": ""
     }
 
     if request.method == 'POST':
@@ -203,7 +203,7 @@ def enriched_data():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            json_from_yaml = process_enrichment_file(filename, content)
+            process_enrichment_file(filename, content)
 
             return render_template("enrichment.html", **content)
 
