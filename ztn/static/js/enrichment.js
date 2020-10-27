@@ -36,8 +36,6 @@ function useRecommended() {
     if (isChecked) {
         // Set source address to subnet + /24 cidr
         document.getElementById("sourceaddr").selectedIndex = document.getElementById("src_subnet").index;
-        console.log(document.getElementById("src_subnet").index);
-
         document.getElementById("src_cidr").value = 24;
         document.getElementById("src_cidr").disabled = false;
 
