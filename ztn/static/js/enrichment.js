@@ -48,7 +48,7 @@ function useRecommended() {
         document.getElementById("dest_cidr").disabled = false;
 
         // Set dest port to specific port
-        document.getElementById("destport").selectedIndex = ;
+        document.getElementById("destport").selectedIndex = 0;
 
         // Set source + dest zone to value from log
         document.getElementById("srczone").selectedIndex = document.getElementById("log_src_zone").index;
