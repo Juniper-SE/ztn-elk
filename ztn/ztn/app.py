@@ -303,8 +303,11 @@ def submit_enriched_form():
     else:
         create_policy_status, policy_id = ztn_elk.create_policy()
 
-    if create_policy_status < 400:
-        logging.info("Policy %s created.", policy_id)
+    if create_policy_status < 400 or create_policy_status == 409:
+        if create_policy_status == 409:
+            logging.info("Policy already exists with id %s, adding rule.", policy_id)
+        else:
+            logging.info("Policy %s created.", policy_id)
 
         time.sleep(3)
         # Attempt to create a policy firewall rule based on the policy and associated objects created previously
