@@ -311,9 +311,10 @@ def submit_enriched_form():
 
         time.sleep(3)
         # Attempt to create a policy firewall rule based on the policy and associated objects created previously
+        print(form['rule_name'])
         if form['rule_name']:
             create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
-                src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'], rule_name=form['rule_name'])
+                src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'], rulename=form['rule_name'])
         else:
             create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
                 src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'])
