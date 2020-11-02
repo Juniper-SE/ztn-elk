@@ -306,12 +306,13 @@ def submit_enriched_form():
     if create_policy_status < 400 or create_policy_status == 409:
         if create_policy_status == 409:
             logging.info("Policy already exists with id %s, adding rule.", policy_id)
+            return '''Policy already exists with that name, please enter a new one.
+                    In the future, this will add the rule to the existing policy.'''
         else:
             logging.info("Policy %s created.", policy_id)
 
         time.sleep(3)
         # Attempt to create a policy firewall rule based on the policy and associated objects created previously
-        print(form['rule_name'])
         if form['rule_name']:
             create_tradtl_rule_status = ztn_elk.create_tradtl_rule(
                 src_addr_id, dest_addr_id, service_id, form['application'], app_id, policy_id, form['srczone'], form['destzone'], rulename=form['rule_name'])

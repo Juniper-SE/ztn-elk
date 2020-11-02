@@ -13,13 +13,20 @@ The Build: The ELK docker "stack" consists of 3 images with the following image 
 
 ** Linux Deps listed below, and instructions, can be found in the installdeps directory
 
+Note:
+1. Use installdeps if installing offline
+2. Use requirements if installing online
+
 - PIP Installer
     - pip for istalling python packages
-- PIP Packages
+- Major PIP Packages
     - flask (https://pypi.org/project/Flask/#files)
     - flask_restful (https://pypi.org/project/Flask-RESTful/#files)
     - netaddr (https://pypi.org/project/netaddr/#files)
     - requests (https://pypi.org/project/requests/)
+- Requirements
+    - `pip install -r requirements.txt`
+    - Installs all the necessary pip requirements
 
 Dependencies Note: To install packages while offline, download the wheel files from each link above, then use:
 

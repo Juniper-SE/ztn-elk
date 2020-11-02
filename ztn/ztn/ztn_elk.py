@@ -252,6 +252,25 @@ def create_policy(**kwargs):
 
     return response.status_code, policy_id
 
+def find_existing_policy(name):
+    url = sd_base_url + sd_policy_uri
+
+    headers = {
+        'Accept': 'application/vnd.juniper.sd.policy-management.firewall.policies+json;version=2;q=0.02',
+        'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg==',
+        'Access-Control': 'managePolicies'
+    }
+
+    response = requests.request(
+        "GET", url, headers=headers, verify=False)
+
+    json_obj = json.loads(response.text)
+    all_policies = json_obj['policies']['policy']
+
+    for policy in all_policies:
+        if policy['name'] == name:
+            return policy['id']
+
 
 def get_rule_groupid(policy_id):
     url = sd_base_url + sd_policy_uri + "/" + str(policy_id) + "/rules"
