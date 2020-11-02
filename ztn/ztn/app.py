@@ -305,9 +305,10 @@ def submit_enriched_form():
 
     if create_policy_status < 400 or create_policy_status == 409:
         if create_policy_status == 409:
-            logging.info("Policy already exists with id %s, adding rule.", policy_id)
-            return '''Policy already exists with that name, please enter a new one.
-                    In the future, this will add the rule to the existing policy.'''
+            logging.info("Policy already exists with name %s, adding rule.", form['policy_name'])
+            policy_id = ztn_elk.find_existing_policy(form['policy_name'])
+            # return '''Policy already exists with that name, please enter a new one.
+            #         In the future, this will add the rule to the existing policy.'''
         else:
             logging.info("Policy %s created.", policy_id)
 
