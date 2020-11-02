@@ -252,6 +252,10 @@ def create_policy(**kwargs):
 
     return response.status_code, policy_id
 
+
+'''
+Currently unusable due to limitations of SD API.
+'''
 def find_existing_policy(name):
     url = sd_base_url + sd_policy_uri + '?filter=(fwPolicy-type eq \'not-empty\')'
 
