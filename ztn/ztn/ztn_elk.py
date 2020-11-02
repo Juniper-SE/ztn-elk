@@ -265,7 +265,7 @@ def find_existing_policy(name):
         "GET", url, headers=headers, verify=False)
 
     json_obj = json.loads(response.text)
-    pretty_json(json_obj)
+    pretty_json(response.text)
     all_policies = json_obj['policies']['policy']
 
     for policy in all_policies:
