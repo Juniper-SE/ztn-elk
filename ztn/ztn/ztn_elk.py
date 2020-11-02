@@ -253,7 +253,7 @@ def create_policy(**kwargs):
     return response.status_code, policy_id
 
 def find_existing_policy(name):
-    url = sd_base_url + sd_policy_uri
+    url = sd_base_url + sd_policy_uri + '?filter=(fwPolicy-type eq \'not-empty\')'
 
     headers = {
         'Accept': 'application/vnd.juniper.sd.policy-management.firewall.policies+json;version=2;q=0.02',
