@@ -475,3 +475,77 @@
 2020-11-02 10:12:10,109  * Restarting with stat
 2020-11-02 10:12:10,410  * Debugger is active!
 2020-11-02 10:12:10,417  * Debugger PIN: 137-060-286
+2020-11-02 16:21:16,999  * Running on http://0.0.0.0:9999/ (Press CTRL+C to quit)
+2020-11-02 16:21:17,001  * Restarting with stat
+2020-11-02 16:21:17,327  * Debugger is active!
+2020-11-02 16:21:17,337  * Debugger PIN: 137-060-286
+2020-11-02 16:21:41,407 127.0.0.1 - - [02/Nov/2020 16:21:41] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2020-11-02 16:21:41,544 127.0.0.1 - - [02/Nov/2020 16:21:41] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-11-02 16:21:41,544 127.0.0.1 - - [02/Nov/2020 16:21:41] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-11-02 16:21:41,544 127.0.0.1 - - [02/Nov/2020 16:21:41] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-11-02 16:21:41,587 127.0.0.1 - - [02/Nov/2020 16:21:41] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-11-02 16:21:41,604 127.0.0.1 - - [02/Nov/2020 16:21:41] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+2020-11-02 16:21:41,744 127.0.0.1 - - [02/Nov/2020 16:21:41] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-11-02 16:21:58,391 127.0.0.1 - - [02/Nov/2020 16:21:58] "[37mGET /enrichment?srcaddr=172.27.16.167&srcport=51369&destaddr=104.215.198.144&destport=443&servicename=junos-https&application=SSL&nested_app=ORACLE&protocol_id=6&username=anas&srczone=corpnet&destzone=external HTTP/1.1[0m" 200 -
+2020-11-02 16:21:58,517 127.0.0.1 - - [02/Nov/2020 16:21:58] "[37mGET /js/enrichment.js HTTP/1.1[0m" 200 -
+2020-11-02 16:21:58,545 127.0.0.1 - - [02/Nov/2020 16:21:58] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2020-11-02 16:22:10,736 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:22:11,407 https://172.25.125.101:443 "GET /api/juniper/sd/address-management/addresses HTTP/1.1" 200 None
+2020-11-02 16:22:11,414 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:22:12,066 https://172.25.125.101:443 "GET /api/juniper/sd/address-management/addresses HTTP/1.1" 200 None
+2020-11-02 16:22:12,069 Source address object with same IP 172.27.16.167 exists, skipping creation.
+2020-11-02 16:22:12,069 Destination address object with same IP 104.215.198.144 exists, skipping creation.
+2020-11-02 16:22:12,071 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:22:12,709 https://172.25.125.101:443 "POST /api/juniper/sd/service-management/services HTTP/1.1" 500 20
+2020-11-02 16:22:12,714 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:22:13,376 https://172.25.125.101:443 "GET /api/juniper/sd/service-management/services HTTP/1.1" 200 None
+2020-11-02 16:22:13,790 L4 Application (Service) matching junos-https found, using id 426010
+2020-11-02 16:22:13,791 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:22:14,497 https://172.25.125.101:443 "GET /api/juniper/sd/app-sig-management/app-sigs HTTP/1.1" 200 None
+2020-11-02 16:22:15,335 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:22:16,008 https://172.25.125.101:443 "POST /api/juniper/sd/policy-management/firewall/policies HTTP/1.1" 500 38
+2020-11-02 16:22:16,011 Policy already exists with name nat_policy, adding rule.
+2020-11-02 16:22:16,014 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:22:16,702 https://172.25.125.101:443 "GET /api/juniper/sd/policy-management/firewall/policies?filter=(fwPolicy-type%20eq%20'not-empty') HTTP/1.1" 200 None
+2020-11-02 16:22:19,711 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:22:20,353 https://172.25.125.101:443 "GET /api/juniper/sd/policy-management/firewall/policies/None/rules HTTP/1.1" 400 981
+2020-11-02 16:22:20,377 127.0.0.1 - - [02/Nov/2020 16:22:20] "[35m[1mPOST /enrichment/submit HTTP/1.1[0m" 500 -
+2020-11-02 16:22:20,480 127.0.0.1 - - [02/Nov/2020 16:22:20] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-11-02 16:22:20,480 127.0.0.1 - - [02/Nov/2020 16:22:20] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-11-02 16:22:20,481 127.0.0.1 - - [02/Nov/2020 16:22:20] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-11-02 16:22:20,528 127.0.0.1 - - [02/Nov/2020 16:22:20] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-11-02 16:22:20,542 127.0.0.1 - - [02/Nov/2020 16:22:20] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+2020-11-02 16:22:20,560 127.0.0.1 - - [02/Nov/2020 16:22:20] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-11-02 16:24:13,597  * Running on http://0.0.0.0:9999/ (Press CTRL+C to quit)
+2020-11-02 16:24:13,598  * Restarting with stat
+2020-11-02 16:24:13,911  * Debugger is active!
+2020-11-02 16:24:13,919  * Debugger PIN: 137-060-286
+2020-11-02 16:30:15,545  * Running on http://0.0.0.0:9999/ (Press CTRL+C to quit)
+2020-11-02 16:30:15,547  * Restarting with stat
+2020-11-02 16:30:15,886  * Debugger is active!
+2020-11-02 16:30:15,893  * Debugger PIN: 137-060-286
+2020-11-02 16:30:44,109 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:30:44,766 https://172.25.125.101:443 "GET /api/juniper/sd/address-management/addresses HTTP/1.1" 200 None
+2020-11-02 16:30:44,771 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:30:45,412 https://172.25.125.101:443 "GET /api/juniper/sd/address-management/addresses HTTP/1.1" 200 None
+2020-11-02 16:30:45,416 Source address object with same IP 172.27.16.167 exists, skipping creation.
+2020-11-02 16:30:45,416 Destination address object with same IP 104.215.198.144 exists, skipping creation.
+2020-11-02 16:30:45,418 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:30:46,059 https://172.25.125.101:443 "POST /api/juniper/sd/service-management/services HTTP/1.1" 500 20
+2020-11-02 16:30:46,064 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:30:46,731 https://172.25.125.101:443 "GET /api/juniper/sd/service-management/services HTTP/1.1" 200 None
+2020-11-02 16:30:47,144 L4 Application (Service) matching junos-https found, using id 426010
+2020-11-02 16:30:47,146 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:30:47,859 https://172.25.125.101:443 "GET /api/juniper/sd/app-sig-management/app-sigs HTTP/1.1" 200 None
+2020-11-02 16:30:48,695 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:30:49,352 https://172.25.125.101:443 "POST /api/juniper/sd/policy-management/firewall/policies HTTP/1.1" 500 38
+2020-11-02 16:30:49,355 Policy already exists with name nat_policy, adding rule.
+2020-11-02 16:30:49,359 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:30:50,046 https://172.25.125.101:443 "GET /api/juniper/sd/policy-management/firewall/policies?filter=(fwPolicy-type%20eq%20'not-empty') HTTP/1.1" 200 None
+2020-11-02 16:30:53,055 Starting new HTTPS connection (1): 172.25.125.101:443
+2020-11-02 16:30:53,695 https://172.25.125.101:443 "GET /api/juniper/sd/policy-management/firewall/policies/None/rules HTTP/1.1" 400 981
+2020-11-02 16:30:53,715 127.0.0.1 - - [02/Nov/2020 16:30:53] "[35m[1mPOST /enrichment/submit HTTP/1.1[0m" 500 -
+2020-11-02 16:30:53,822 127.0.0.1 - - [02/Nov/2020 16:30:53] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+2020-11-02 16:30:53,823 127.0.0.1 - - [02/Nov/2020 16:30:53] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+2020-11-02 16:30:53,824 127.0.0.1 - - [02/Nov/2020 16:30:53] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+2020-11-02 16:30:53,924 127.0.0.1 - - [02/Nov/2020 16:30:53] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -

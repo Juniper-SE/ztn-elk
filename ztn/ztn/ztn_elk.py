@@ -259,6 +259,7 @@ Currently unusable due to limitations of SD API.
 def find_existing_policy(name):
     url = sd_base_url + sd_policy_uri + '?filter=(fwPolicy-type eq \'not-empty\')'
 
+    print(url)
     headers = {
         'Accept': 'application/vnd.juniper.sd.policy-management.firewall.policies+json;version=2;q=0.02',
         'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg==',
@@ -270,7 +271,7 @@ def find_existing_policy(name):
 
     json_obj = json.loads(response.text)
     print("Existing policy: \n")
-    print(response.text)
+    print(pretty_json(response.text))
     all_policies = json_obj['policies']['policy']
 
     for policy in all_policies:
