@@ -247,6 +247,7 @@ def submit_enriched_form():
         else:
             logging.warn(
                 "API call to Security Director failed, check your connections, URLs, and IPs. Status code: %d", src_status_code)
+            return '''"API call to Security Director failed, check your connections, URLs, and IPs. Check the logs for status code.'''
 
         # Address object with matching IP exists, skip creation
     else:
@@ -273,6 +274,7 @@ def submit_enriched_form():
         else:
             logging.warn(
                 "API call to Security Director failed, check your connections, URLs, and IPs. Status code: %d", dest_status_code)
+            return '''"API call to Security Director failed, check your connections, URLs, and IPs. Check the logs for status code.'''
 
     # Address object with matching IP exists, skip creation
     else:
@@ -305,10 +307,11 @@ def submit_enriched_form():
 
     if create_policy_status < 400 or create_policy_status == 409:
         if create_policy_status == 409:
-            logging.info("Policy already exists with name %s, adding rule.", form['policy_name'])
-            # return '''Policy already exists with that name, please enter a new one.
-            #         In the future, this will add the rule to the existing policy.'''
-            policy_id = ztn_elk.find_existing_policy(form['policy_name'])
+            logging.info("Policy already exists with name %s.", form['policy_name'])
+            return '''Policy already exists with that name, please enter a new one.
+                    In the future, this will add the rule to the existing policy.'''
+            # logging.info("Policy already exists with name %s, adding rule.", form['policy_name'])
+            # policy_id = ztn_elk.find_existing_policy(form['policy_name'])
             # TODO check for duplicate policy and add rule once SD API properly returns all policies
         else:
             logging.info("Policy %s created.", policy_id)
@@ -328,9 +331,11 @@ def submit_enriched_form():
         else:
             logging.warning("Traditional firewall rule NOT created for policy id %s with status code %d",
                             policy_id, create_tradtl_rule_status)
+            return '''The firewall rule could not be created, please check the logs.'''
     else:
         logging.warning(
             "Policy %s NOT created with status code %d.", policy_id, create_policy_status)
+        return '''There was an error creating the policy, please check the logs.'''
 
     return '''The form has been submitted, you can close this page.'''
 
