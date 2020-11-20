@@ -16,9 +16,9 @@ if ! command -v pip > /dev/null && ! command -v pip3 > /dev/null; then
   exit -1
 fi
 
-version=$(python -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
+version1=$(python -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
 if [ "$version" -lt "30" ]; then
-    printf "This script requires python 3.0 or greater"
+    printf "This script requires python 3.0 or greater\n"
     printf "This may require using python3 instead of python when running the app.\n"
     exit 1
 fi

@@ -6,6 +6,7 @@ import json
 import time
 import yaml
 from werkzeug.utils import secure_filename
+from ztn_elk import sd_base_url
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'yaml'}
@@ -337,7 +338,7 @@ def submit_enriched_form():
             "Policy %s NOT created with status code %d.", policy_id, create_policy_status)
         return '''There was an error creating the policy, please check the logs.'''
 
-    return '''The form has been submitted, you can close this page.'''
+    return render_template("policy_submitted.html", sd_url=sd_base_url)
 
 
 @app.route('/js/<path:filename>')
