@@ -16,7 +16,7 @@ if ! command -v pip > /dev/null && ! command -v pip3 > /dev/null; then
   exit -1
 fi
 
-version=$(python -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
+version=$(python3 -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
 if [ "$version" -lt "30" ]; then
     printf "This script requires python 3.0 or greater"
     printf "This may require using python3 instead of python when running the app.\n"
@@ -28,7 +28,7 @@ if ! command -v docker-compose > /dev/null; then
   exit -1
 fi
 
-printf "\n[2/3]  Installing pip requirements..."
+printf "\n[2/4]  Installing pip requirements..."
 
 if command -v pip > /dev/null; then
   cd ..
