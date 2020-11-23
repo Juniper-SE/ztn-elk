@@ -31,15 +31,19 @@ fi
 printf "\n[2/3]  Installing pip requirements..."
 
 if command -v pip > /dev/null; then
+  cd ..
   pip install -r requirements.txt
-  pip install docker-compose
 elif command -v pip3 > /dev/null; then
+  cd ..
   pip3 install -r requirements.txt
-  pip3 install docker-compose
 fi
 
-printf "\n[3/3]  Setting virtual memory per ECS best practices. Will persist across reboots."
-sysctl -w vm.max_map_count=262144
+printf "\n[3/4]  Installing docker-compose."
+sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+printf "\n[4/4]  Setting virtual memory per ECS best practices. Will persist across reboots."
+sudo sysctl -w vm.max_map_count=262144
 sudo echo vm.max_map_count=262144 >> /etc/sysctl.conf
 
 printf "\nDependencies installation complete.\n"
