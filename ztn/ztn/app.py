@@ -1,12 +1,11 @@
 from flask import Flask, request, render_template, send_from_directory
-import ztn_elk
+from ztn_elk import ZTN_ELK_Server
 import os
 import logging
 import json
 import time
 import yaml
 from werkzeug.utils import secure_filename
-from ztn_elk import sd_base_url
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'yaml'}
@@ -14,6 +13,14 @@ ALLOWED_EXTENSIONS = {'yaml'}
 app = Flask(__name__, template_folder="../templates")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
+## Load the configuration file and login to SD API
+with open("../../ztn.yml", 'r') as stream:
+    try:
+        obj = yaml.safe_load(stream)
+    except yaml.YAMLError as exc:
+        print(exc)
+ztn_elk = ZTN_ELK_Server(url="https://" + obj["sd.ip_addr"], user=obj["sd.user"], password=obj["sd.password"] )
 
 # Logging configuration
 logging.basicConfig(filename="ztn_elk.log",

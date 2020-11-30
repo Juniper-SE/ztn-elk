@@ -549,3 +549,11 @@
 2020-11-02 16:30:53,823 127.0.0.1 - - [02/Nov/2020 16:30:53] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
 2020-11-02 16:30:53,824 127.0.0.1 - - [02/Nov/2020 16:30:53] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
 2020-11-02 16:30:53,924 127.0.0.1 - - [02/Nov/2020 16:30:53] "[37mGET /enrichment/submit?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+2020-11-30 11:14:16,376  * Running on http://0.0.0.0:9999/ (Press CTRL+C to quit)
+2020-11-30 11:14:16,377  * Restarting with stat
+2020-11-30 11:14:16,732  * Debugger is active!
+2020-11-30 11:14:16,742  * Debugger PIN: 197-787-768
+2020-11-30 11:14:45,365 127.0.0.1 - - [30/Nov/2020 11:14:45] "[37mGET /enrichment?srcaddr=116.197.184.12&srcport=32771&destaddr=24.0.0.1&destport=36031&servicename=None&srczone=l1z1&destzone=l1z3&application=BITTORRENT&username=janat&protocol_id=6&nested_app=BITTORRENT HTTP/1.1[0m" 200 -
+2020-11-30 11:14:45,552 127.0.0.1 - - [30/Nov/2020 11:14:45] "[37mGET /js/enrichment.js HTTP/1.1[0m" 200 -
+2020-11-30 11:14:45,629 127.0.0.1 - - [30/Nov/2020 11:14:45] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2020-11-30 11:14:51,856 Starting new HTTPS connection (1): 172.25.125.101:443
