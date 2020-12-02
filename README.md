@@ -34,7 +34,7 @@ Dependencies Note: To install packages while offline, download the wheel files f
 
 ## To deploy this stack (tested on Ubuntu 18.04.2 and Windows10 with 2/26 Docker)
 
-Create a directory and place the included docker-compose.yml file and all yml and conf files inside of it. Change the IP address within logstash.conf to your server IP, and change firewall IP and APIKEY within ztn/ztn_elk.py to reflect your environment. (TODO -- env variables)
+Create a directory and place the included docker-compose.yml file and all yml and conf files inside of it. Change the IP address within logstash.conf on line 48 to your server IP. Change the variables in ztn.yml to reflect your environment. (TODO -- env variables)
 
 You will also need to install docker-compose as a pre-requisite. See: https://docs.docker.com/compose/install/
 
@@ -54,7 +54,7 @@ use this command to ensure the three containers comprising the "stack" are runni
 
 `docker ps`
 
-NOTE: If you notice a single container is exiting or not running, restart the container with docker-compose command but without the -d option so it'll show interactive messages Connect to the Kibana portal: (replace localhost with docker server IP if not on host
+NOTE: If you notice a single container is exiting or not running, restart the container with docker-compose command but without the -d option so it'll show interactive messages Connect to the Kibana portal: (replace localhost with docker server IP if not on host):
 
 http://localhost:5601
 
