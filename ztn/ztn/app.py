@@ -21,6 +21,7 @@ with open("../../ztn.yml", 'r') as stream:
     except yaml.YAMLError as exc:
         print(exc)
 ztn_elk = ZTN_ELK_Server(url="https://" + obj["sd.ip_addr"], user=obj["sd.user"], password=obj["sd.password"] )
+ztn_elk.login()
 
 # Logging configuration
 logging.basicConfig(filename="ztn_elk.log",

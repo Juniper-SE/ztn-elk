@@ -59,8 +59,7 @@ class ZTN_ELK_Server():
         payload = {}
 
         headers = {
-            'Accept': 'application/vnd.juniper.sd.address-management.address-refs+json;version=1;q=0.01',
-            'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+            'Accept': 'application/vnd.juniper.sd.address-management.address-refs+json;version=1;q=0.01'
         }
 
         response = requests.request(
@@ -89,8 +88,7 @@ class ZTN_ELK_Server():
 
         headers = {
             'Content-Type': 'application/vnd.juniper.sd.address-management.address+json;version=1;charset=UTF-8',
-            'Accept': 'application/vnd.juniper.sd.address-management.address+json;version=1;q=0.01',
-            'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+            'Accept': 'application/vnd.juniper.sd.address-management.address+json;version=1;q=0.01'
         }
 
         if "/" in address:
@@ -127,8 +125,7 @@ class ZTN_ELK_Server():
 
         payload = {}
         headers = {
-            'Accept': 'application/vnd.juniper.sd.service-management.services+json;version=1;q=0.01',
-            'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+            'Accept': 'application/vnd.juniper.sd.service-management.services+json;version=1;q=0.01'
         }
 
         response = requests.request(
@@ -154,8 +151,7 @@ class ZTN_ELK_Server():
 
         headers = {
             'Content-Type': 'application/vnd.juniper.sd.service-management.service+json;version=1;charset=UTF-8',
-            'Accept': 'application/vnd.juniper.sd.service-management.service+json;version=1;q=0.01',
-            'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+            'Accept': 'application/vnd.juniper.sd.service-management.service+json;version=1;q=0.01'
         }
 
         protocol_types = {
@@ -220,8 +216,7 @@ class ZTN_ELK_Server():
 
         payload = {}
         headers = {
-            'Accept': 'application/vnd.juniper.sd.app-sig-management.app-sig-refs+json;version=1;q=0.01',
-            'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+            'Accept': 'application/vnd.juniper.sd.app-sig-management.app-sig-refs+json;version=1;q=0.01'
         }
 
         response = requests.request(
@@ -243,8 +238,7 @@ class ZTN_ELK_Server():
 
         headers = {
             'Content-Type': 'application/vnd.juniper.sd.policy-management.firewall.policy+json;version=2;charset=UTF-8',
-            'Accept': 'application/vnd.juniper.sd.policy-management.firewall.policy+json;version=2;q=0.02',
-            'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg=='
+            'Accept': 'application/vnd.juniper.sd.policy-management.firewall.policy+json;version=2;q=0.02'
         }
 
         random_id = str(uuid.uuid4().fields[-1])[:5]
@@ -282,7 +276,6 @@ class ZTN_ELK_Server():
         print(url)
         headers = {
             'Accept': 'application/vnd.juniper.sd.policy-management.firewall.policies+json;version=2;q=0.02',
-            'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg==',
             'Access-Control': 'managePolicies'
         }
 
@@ -304,7 +297,6 @@ class ZTN_ELK_Server():
 
         headers = {
             'Accept': 'application/vnd.juniper.sd.policy-management.firewall.rules+json;version=2;q=0.02',
-            'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg==',
             'Access-Control': 'managePolicies'
         }
 
@@ -325,7 +317,6 @@ class ZTN_ELK_Server():
         headers = {
             'Content-Type': 'application/vnd.juniper.sd.policy-management.firewall.rule+json;version=2;charset=UTF-8',
             'Accept': 'application/vnd.juniper.sd.policy-management.firewall.rule+json;version=2;q=0.02',
-            'Authorization': 'Basic c3VwZXI6MTIzanVuaXBlcg==',
             'Access-Control': 'ModifyPolicy'
         }
 

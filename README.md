@@ -54,7 +54,9 @@ use this command to ensure the three containers comprising the "stack" are runni
 
 `docker ps`
 
-NOTE: If you notice a single container is exiting or not running, restart the container with docker-compose command but without the -d option so it'll show interactive messages Connect to the Kibana portal: (replace localhost with docker server IP if not on host):
+NOTE: If you notice a single container is exiting or not running, restart the container with docker-compose command but without the -d option so it'll show interactive messages
+
+Connect to the Kibana portal: (replace localhost with docker server IP if not on host):
 
 http://localhost:5601
 
