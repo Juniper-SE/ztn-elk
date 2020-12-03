@@ -346,7 +346,7 @@ def submit_enriched_form():
             "Policy %s NOT created with status code %d.", policy_id, create_policy_status)
         return '''There was an error creating the policy, please check the logs.'''
 
-    return render_template("policy_submitted.html", sd_url=sd_base_url)
+    return render_template("policy_submitted.html", sd_url=ztn_elk.root_url)
 
 
 @app.route('/js/<path:filename>')
