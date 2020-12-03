@@ -203,8 +203,9 @@ class ZTN_ELK_Server():
             }
         })
 
-        response = requests.request(
-            "POST", url, headers=headers, data=payload, verify=False)
+        req = requests.Request('POST', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
 
         if "Duplicated key" in response.text:
             service_id = self.find_existing_service(servicename)
