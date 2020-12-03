@@ -16,7 +16,7 @@ sd_policy_uri = "/api/juniper/sd/policy-management/firewall/policies"
 sd_application_uri = "/api/juniper/sd/app-sig-management/app-sigs"
 
 class ZTN_ELK_Server():
-    def __init__(self, url, user, password, sslVerify=True):
+    def __init__(self, url, user, password, sslVerify=False):
        self.root_url = url
        self.user = user
        self.password = password
