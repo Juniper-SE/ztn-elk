@@ -25,7 +25,7 @@ class ZTN_ELK_Server():
     def login(self):
        session = requests.session()
        bstr = self.user + ':' + self.password
-       auth = base64.b64encode(bytes(bstr),'utf-8')
+       auth = base64.b64encode(bytes(bstr,'utf-8'))
        auth = auth.decode('utf-8')
        #print(auth)
        URL = self.root_url + '/api/space/user-management/login'
