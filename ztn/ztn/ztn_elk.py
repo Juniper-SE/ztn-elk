@@ -62,8 +62,12 @@ class ZTN_ELK_Server():
             'Accept': 'application/vnd.juniper.sd.address-management.address-refs+json;version=1;q=0.01'
         }
 
-        response = requests.request(
-            "GET", url, headers=headers, data=payload, verify=False)
+        # response = requests.request(
+            # "GET", url, headers=headers, data=payload, verify=False)
+
+        req = requests.Request('GET', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
 
         if response.ok:
             addresses = json.loads(response.text)['addresses']['address']
