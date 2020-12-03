@@ -62,9 +62,6 @@ class ZTN_ELK_Server():
             'Accept': 'application/vnd.juniper.sd.address-management.address-refs+json;version=1;q=0.01'
         }
 
-        # response = requests.request(
-            # "GET", url, headers=headers, data=payload, verify=False)
-
         req = requests.Request('GET', url, headers=headers, data=payload)
         prepped = self.session.prepare_request(req)
         response = self.session.send(prepped)
@@ -112,8 +109,9 @@ class ZTN_ELK_Server():
             }
         })
 
-        response = requests.request(
-            "POST", url, headers=headers, data=payload, verify=False)
+        req = requests.Request('POST', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
 
         addr_id = json.loads(response.text)['address']['id']
 
@@ -132,8 +130,9 @@ class ZTN_ELK_Server():
             'Accept': 'application/vnd.juniper.sd.service-management.services+json;version=1;q=0.01'
         }
 
-        response = requests.request(
-            "GET", url, headers=headers, data=payload, verify=False)
+        req = requests.Request('GET', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
 
         services = json.loads(response.text)['services']['service']
 
@@ -223,8 +222,9 @@ class ZTN_ELK_Server():
             'Accept': 'application/vnd.juniper.sd.app-sig-management.app-sig-refs+json;version=1;q=0.01'
         }
 
-        response = requests.request(
-            "GET", url, headers=headers, data=payload, verify=False)
+        req = requests.Request('GET', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
 
         applications = json.loads(response.text)['app-sigs']['app-sig']
 
@@ -260,8 +260,9 @@ class ZTN_ELK_Server():
             }
         })
 
-        response = requests.request(
-            "POST", url, headers=headers, data=payload, verify=False)
+        req = requests.Request('POST', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
 
         if "already exists" in response.text:
             return 409, None
@@ -278,13 +279,15 @@ class ZTN_ELK_Server():
         url = self.root_url + sd_policy_uri + '?filter=(fwPolicy-type eq \'not-empty\')'
 
         print(url)
+        payload = {}
         headers = {
             'Accept': 'application/vnd.juniper.sd.policy-management.firewall.policies+json;version=2;q=0.02',
             'Access-Control': 'managePolicies'
         }
 
-        response = requests.request(
-            "GET", url, headers=headers, verify=False)
+        req = requests.Request('GET', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
 
         json_obj = json.loads(response.text)
         print("Existing policy: \n")
@@ -299,13 +302,15 @@ class ZTN_ELK_Server():
     def get_rule_groupid(self, policy_id):
         url = self.root_url + sd_policy_uri + "/" + str(policy_id) + "/rules"
 
+        payload = {}
         headers = {
             'Accept': 'application/vnd.juniper.sd.policy-management.firewall.rules+json;version=2;q=0.02',
             'Access-Control': 'managePolicies'
         }
 
-        response = requests.request(
-            "GET", url, headers=headers, verify=False)
+        req = requests.Request('GET', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
 
         json_obj = json.loads(response.text)
         zone_id = json_obj['rules']['rule'][0]['id']
@@ -418,7 +423,8 @@ class ZTN_ELK_Server():
             }
         })
 
-        response = requests.request(
-            "POST", url, headers=headers, data=payload, verify=False)
+        req = requests.Request('POST', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
 
         return response.status_code
