@@ -97,6 +97,9 @@ class ZTN_ELK_Server():
         else:
             address_type = "IPADDRESS"
 
+        if address[-1] == "/":
+            address += "24"
+
         payload = json.dumps({
             'address': {
                 'definition-type': 'CUSTOM',
@@ -216,6 +219,9 @@ class ZTN_ELK_Server():
 
 
     def find_application(self, appname):
+        if appname == "UNKNOWN":
+            return None
+
         url = self.root_url + sd_application_uri
 
         payload = {}

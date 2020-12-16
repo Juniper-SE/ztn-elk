@@ -1,5 +1,5 @@
 
 ## Security Director Fields
-sd.ip_addr: "0.0.0.0"
-sd.user: "user"
-sd.password: "password"
+sd.ip_addr: "172.25.58.235"
+sd.user: "super"
+sd.password: "jnpr123!"

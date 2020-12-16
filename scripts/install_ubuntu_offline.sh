@@ -9,30 +9,12 @@ YELLOW='\033[0;33m'
 NO_COLOR='\033[0m'
 CLEAR_LINE='\r\033[K'
 
-printf "${CLEAR_LINE}[1/5]  Checking dependencies..."
-
-if ! command -v pip > /dev/null && ! command -v pip3 > /dev/null; then
-  printf "${CLEAR_LINE}${RED}   You must install pip on your system before setup can continue${NO_COLOR}\n"
-  exit -1
-fi
-
-version1=$(python -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
-if [ "$version" -lt "30" ]; then
-    printf "This script requires python 3.0 or greater\n"
-    printf "This may require using python3 instead of python when running the app.\n"
-    exit 1
-fi
-
-if ! command -v docker-compose > /dev/null; then
-  printf "${CLEAR_LINE}${RED}   You must install docker-compose on your system before setup can continue${NO_COLOR}\n"
-  exit -1
-fi
-
-printf "\n[2/5]  Making deps folder and unzipping deps.tar.gz"
+printf "\n[1/5]  Making deps folder and unzipping deps.tar.gz"
+cd ../installdeps
 mkdir deps
 tar -C deps -xzvf deps.tar.gz
 
-printf "\n[3/5]  Installing deps."
+printf "\n[2/5]  Installing deps."
 cd deps
 dpkg -i *.deb
 pip install Werkzeug-1.0.0-py2.py3-none-any.whl \
@@ -48,11 +30,30 @@ aniso8601-8.0.0-py2.py3-none-any \
 Flask_RESTful-0.3.8-py2.py3-none-any.whl \
 netaddr-0.7.19-py2.py3-none-any.whl
 
-printf "\n[4/5]  Installing docker."
+printf "\n[3/5]  Installing docker."
 mkdir docker
 tar -C docker -xzvf docker.tar.gz
 cd docker
 dpkg -i *.deb
+
+printf "${CLEAR_LINE}[4/5]  Checking dependencies..."
+
+if ! command -v pip > /dev/null && ! command -v pip3 > /dev/null; then
+  printf "${CLEAR_LINE}${RED}   You must install pip on your system before setup can continue${NO_COLOR}\n"
+  exit -1
+fi
+
+version1=$(python -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
+if [ "$version" -lt "27" ]; then
+    printf "This script requires python 2.7 or greater\n"
+    printf "This may require using python3 instead of python when running the app.\n"
+    exit 1
+fi
+
+if ! command -v docker-compose > /dev/null; then
+  printf "${CLEAR_LINE}${RED}   You must install docker-compose on your system before setup can continue${NO_COLOR}\n"
+  exit -1
+fi
 
 printf "\n[5/5]  Setting virtual memory per ECS best practices. Will persist across reboots."
 sysctl -w vm.max_map_count=262144
