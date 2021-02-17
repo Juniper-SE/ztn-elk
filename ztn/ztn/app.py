@@ -68,7 +68,6 @@ def index():
                 else:
                     logging.warn(
                         "Source address object failed to be created with status code %d.", create_src_addr_status)
-
             # Failed API connection
             else:
                 logging.warn(
@@ -94,7 +93,6 @@ def index():
                 else:
                     logging.warning(
                         "Destination address object failed to be created for %s with status code %d.", content['destaddr'], create_dest_addr_status)
-
             # Failed API connection
             else:
                 logging.warn(
@@ -222,7 +220,6 @@ def enriched_data():
 @app.route('/enrichment/submit', methods=['POST'])
 def submit_enriched_form():
     form = request.form
-    print(json.dumps(form))
 
     srcaddr = form['sourceaddr'] if 'src_cidr' not in form else form['sourceaddr'] + \
         '/' + form['src_cidr']
@@ -231,10 +228,15 @@ def submit_enriched_form():
         '/' + form['dest_cidr']
 
     # Check if source and destination addresses already exist in SD
-    src_addr_id, src_status_code = ztn_elk.check_address_exists(
-        srcaddr)
-    dest_addr_id, dest_status_code = ztn_elk.check_address_exists(
-        destaddr)
+    src_addr_id, src_status_code = ztn_elk.check_address_exists(srcaddr)
+    dest_addr_id, dest_status_code = ztn_elk.check_address_exists(destaddr)
+
+    if src_status_code == 401 or dest_status_code == 401:
+        logging.info("API login session timed out, attempting login again.")
+        ztn_elk.login()
+
+        src_addr_id, src_status_code = ztn_elk.check_address_exists(srcaddr)
+        dest_addr_id, dest_status_code = ztn_elk.check_address_exists(destaddr)
 
     # If the source address doesn't exist in SD,
     # check the status code to see if API connection is failing
@@ -263,7 +265,7 @@ def submit_enriched_form():
         logging.info(
             "Source address object with same IP %s exists, skipping creation.", srcaddr)
 
-    # If the source address doesn't exist in SD,
+    # If the destination address doesn't exist in SD,
     # check the status code to see if API connection is failing
     if dest_addr_id is None:
         # If API connection is fine,
