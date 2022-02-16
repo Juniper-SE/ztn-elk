@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-#Container for ELK downloaded from https://www.docker.elastic.co/# 
+  #Container for ELK downloaded from https://www.docker.elastic.co/#
   elasticsearch:
-  #app name
+    #app name
     image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
     container_name: elasticsearch
     environment:
@@ -23,9 +23,9 @@ services:
       - "9300:9300"
     networks:
       - elk
-#    command: bash /usr/share/elasticsearch/mappings/create_ecs_pan_mapping
+  #    command: bash /usr/share/elasticsearch/mappings/create_ecs_pan_mapping
   logstash:
-  #app name
+    #app name
     image: docker.elastic.co/logstash/logstash:7.4.2
     container_name: logstash
     volumes:
@@ -36,7 +36,7 @@ services:
       - ./ztn/applipedia.yaml:/tmp/applipedia.yaml
     ports:
       #5550 is for traffic logs from NGFW, 5551 for threats 5552 url, 5553 for wf, 5554 for dataf, 5555 for userid, 5556 for tunnel, 5557 HIP, 5558 panos-system, 5559 panos-config
-      - "5550:5550/udp"  
+      - "5550:5550/udp"
       - "5551:5551/udp"
       - "5552:5552/udp"
       - "5553:5553/udp"
@@ -55,7 +55,7 @@ services:
       - elasticsearch
 
   kibana:
-  #app name
+    #app name
     image: docker.elastic.co/kibana/kibana:7.4.2
     container_name: kibana
     volumes:
@@ -67,10 +67,19 @@ services:
     depends_on:
       - elasticsearch
 
+  ztn:
+    build: ./ztn/
+    ports:
+      - "9999:9999"
+    networks:
+      - elk
+    depends_on:
+      - kibana
+
 networks:
 
   elk:
-  #network name
+    #network name
     ipam:
       driver: default
       config:
