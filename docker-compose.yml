@@ -69,6 +69,7 @@ services:
 
   ztn:
     build: ./ztn/
+    container_name: ztn
     ports:
       - "9999:9999"
     networks:

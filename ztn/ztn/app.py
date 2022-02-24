@@ -15,7 +15,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 ## Load the configuration file and login to SD API
-with open("../../ztn.yml", 'r') as stream:
+with open("../ztn.yml", 'r') as stream:
     try:
         obj = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
