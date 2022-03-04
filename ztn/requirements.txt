@@ -27,3 +27,10 @@ urllib3==1.25.10
 uvicorn==0.12.2
 Werkzeug==1.0.1
 wrapt==1.12.1
+
+streamlit==0.77.0
+protobuf==3.13.0
+graphistry==0.17.2
+pandasticsearch
+pandas
+elasticsearch

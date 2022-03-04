@@ -14,6 +14,7 @@ sd_address_uri = "/api/juniper/sd/address-management/addresses"
 sd_service_uri = "/api/juniper/sd/service-management/services"
 sd_policy_uri = "/api/juniper/sd/policy-management/firewall/policies"
 sd_application_uri = "/api/juniper/sd/app-sig-management/app-sigs"
+sd_scheduler_uri = "/api/juniper/sd/scheduler-management/schedulers"
 
 class ZTN_ELK_Server():
     def __init__(self, url, user, password, sslVerify=False):
@@ -245,6 +246,8 @@ class ZTN_ELK_Server():
 
     def create_policy(self, **kwargs):
         policy_name = kwargs.get("policyname", None)
+        policy_schedule_id = kwargs.get("policyscheduleid", "")
+        policy_schedule_name = kwargs.get("policyscheduleid", "")
         url = self.root_url + sd_policy_uri
 
         headers = {
@@ -263,7 +266,11 @@ class ZTN_ELK_Server():
                 "manage-zone-policy": 'true',
                 "manage-global-policy": 'true',
                 "ips-mode": "NONE",
-                "fwPolicy-type": "UNIFIED"
+                "fwPolicy-type": "UNIFIED",
+                "scheduler" : {
+                    "id": policy_schedule_id,
+                    "name": policy_schedule_name
+                }
             }
         })
 
@@ -393,7 +400,9 @@ class ZTN_ELK_Server():
                 "vpn-tunnel-refs": {},
                 "disabled": "false",
                 "rule-group-id": rule_group_id_zone,
-                "scheduler": {},
+                "scheduler": {
+
+                },
                 "services": services,
                 "applications": applications,
                 "action": "DENY",
@@ -435,3 +444,95 @@ class ZTN_ELK_Server():
         response = self.session.send(prepped)
 
         return response.status_code
+
+
+    def check_scheduler_exists(self, policy_schedule_name):
+        """
+        Check if a policy scheduler exists.
+        If it does, return its id.
+        Otherwise, return none
+
+        :return scheduler ID if a matching object exists, None otherwise ; status code
+        """
+        url = self.root_url + sd_scheduler_uri + "/schedulers"
+        payload = {}
+
+        headers = {
+            'Accept': 'application/vnd.juniper.sd.scheduler-management.schedulers+json;version=1;q=0.01',
+            'Access-Control': 'sdManageScheduler'
+        }
+
+        req = requests.Request('GET', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
+
+        json_obj = json.loads(response.text)
+        print("Existing policy schedules: \n")
+        print(self.pretty_json(response.text))
+        all_schedules = json_obj['schedulers']
+
+        for schedule in all_schedules:
+            if schedule['name'] == policy_schedule_name:
+                return schedule['id'], response.status_code
+
+        return None
+
+    # Create a policy scheduler and return its id + string
+    def create_scheduler(self, **kwargs):
+        """
+        Create a policy scheduler
+
+        :return scheduler ID, scheduler name ; status code
+        """
+
+        scheduler_name = kwargs.get("schedulername", "")
+        if scheduler_name is None or scheduler_name == "":
+            scheduler_name = "ZTN_ELK_SCHEDULER_" + str(uuid.uuid4().fields[-1])[:5]
+
+        url = self.root_url + sd_scheduler_uri
+
+        headers = {
+            'Accept': 'application/vnd.juniper.sd.scheduler-management.scheduler+json;version=1;q=0.01',
+            'Access-Control': 'sdCreateScheduler',
+            'Content-Type': 'application/vnd.juniper.sd.scheduler-management.scheduler+json;version=1;charset=UTF-8'
+        }
+
+        payload = json.dumps({
+            "scheduler": {
+                "name": scheduler_name,
+                "description": "Scheduler created using ZTN_ELK",
+                ""
+            }
+
+                        {
+            "scheduler" : {
+            "name" : "String",
+            "description" : "String",
+            "start-date1" : "String",
+            "stop-date1" : "String",
+            "start-date2" : "String",
+            "stop-date2" : "String",
+            "schedules" : {
+            "schedule" : [ {
+            "day" : [ "DAILY", "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY",
+            "SATURDAY" ],
+            "start-time1" : "String",
+            "stop-time1" : "String",
+            "start-time2" : "String",
+            "stop-time2" : "String",
+            "exclude" : "Boolean",
+            "all-day" : "Boolean"
+            } ]
+            },
+            "edit-version" : "Integer",
+            "definition-type" : [ "Hidden", "Predefined", "Custom", "All" ],
+            "id" : "Integer"
+            }
+            }
+
+
+        })
+        req = requests.Request('POST', url, headers=headers, data=payload)
+        prepped = self.session.prepare_request(req)
+        response = self.session.send(prepped)
+        return

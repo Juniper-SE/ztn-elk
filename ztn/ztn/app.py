@@ -1,11 +1,16 @@
 from flask import Flask, request, render_template, send_from_directory
 from ztn_elk import ZTN_ELK_Server
+from ztn_graph import ZTN_Graph
 import os
 import logging
 import json
 import time
 import yaml
 from werkzeug.utils import secure_filename
+from elasticsearch import Elasticsearch
+import pandasticsearch as pds
+import pandas as pd
+
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'yaml'}
@@ -14,6 +19,7 @@ app = Flask(__name__, template_folder="../templates")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
+### SECURITY DIRECTOR LOGIN ###
 ## Load the configuration file and login to SD API
 with open("../ztn.yml", 'r') as stream:
     try:
@@ -23,10 +29,13 @@ with open("../ztn.yml", 'r') as stream:
 ztn_elk = ZTN_ELK_Server(url="https://" + obj["sd.ip_addr"], user=obj["sd.user"], password=obj["sd.password"] )
 ztn_elk.login()
 
+### GRAPHISTRY LOGIN / SETUP ###
+ztn_graph = ZTN_Graph(url='hub.graphistry.com', user='natzberg', password='Tastiness2-Variably-Hesitate')
+ztn_graph.login()
+
 # Logging configuration
 logging.basicConfig(filename="ztn_elk.log",
                     format='%(asctime)s %(message)s', level=logging.DEBUG)
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -309,10 +318,42 @@ def submit_enriched_form():
 
     app_id = ztn_elk.find_application(form['application'])
 
+
+    # Check if a policy schedule with the given name already exists, if not create one
+    if form['policy_schedule_name']:
+        policy_schedule_id, policy_schedule_status_code = ztn_elk.check_scheduler_exists(form['policy_schedule_name'])
+
+        if policy_schedule_status_code < 400:
+            create_policy_schedule_status, policy_schedule_id = ztn_elk.create_scheduler(
+                schedulername=form['policy_schedule_name'])
+
+            if create_policy_schedule_status == 200:
+                logging.info(
+                    "Policy schedule object created for %s.", form['policy_schedule_name'])
+            else:
+                logging.warning(
+                    "Policy schedule object failed to be created for %s with status code %d.", form['policy_schedule_name'], create_policy_schedule_status)
+
+        # Failed API connection
+        else:
+            logging.warn(
+                "API call to Security Director failed, check your connections, URLs, and IPs. Status code: %d", policy_schedule_status_code)
+            return '''"API call to Security Director failed, check your connections, URLs, and IPs. Check the logs for status code.'''
+    else:
+        create_policy_schedule_status, policy_schedule_id = ztn_elk.create_scheduler()
+
+        if create_policy_schedule_status == 409:
+            logging.warn("Policy schedule with name %s already exists, new name needs to be chosen.", form['policy_schedule_name'])
+            return '''There is already a policy schedule with that name, please return to the previous page and try again.'''
+
+        logging.info("Policy schedule with name %s created.")
+
     # Attempt to create a policy based on the addrress objects and application created previously
     if form['policy_name']:
         create_policy_status, policy_id = ztn_elk.create_policy(
-            policyname=form['policy_name'])
+            policyname=form['policy_name'],
+            policyscheduleid=policy_schedule_id,
+            policyschedulename=form['policy_schedule_name'])
     else:
         create_policy_status, policy_id = ztn_elk.create_policy()
 
@@ -350,6 +391,17 @@ def submit_enriched_form():
 
     return render_template("policy_submitted.html", sd_url=ztn_elk.root_url)
 
+@app.route('/graph/')
+def test():
+    es = Elasticsearch('http://10.192.16.248:9200')
+    # es_result = es.search(index="junos-syslog", query={"match_all": {}})
+    results = elasticsearch.helpers.scan(es, query={"query": {"match_all": {}}}, index="junos-syslog")
+    df = pd.DataFrame.from_dict([document['_source'] for document in results])
+
+    pandas_df = pds.Select.from_dict(es_result).to_pandas()
+    pandas_df.print_schema()
+
+    return 'yeah'
 
 @app.route('/js/<path:filename>')
 def serve_static(filename):

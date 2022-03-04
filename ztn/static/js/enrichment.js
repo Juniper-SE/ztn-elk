@@ -65,3 +65,61 @@ function useRecommended() {
 function submitEnriched() {
 
 }
+
+function timeBased() {
+    var isChecked = document.getElementById("yes_policy_time").checked;
+
+    if (isChecked) {
+        document.getElementById("policy_time_start").disabled = false;
+        document.getElementById("policy_time_end").disabled = false;
+        document.getElementById("policy_date_start").disabled = false;
+        document.getElementById("policy_date_end").disabled = false;
+        document.getElementById("policy_daily").disabled = false;
+        document.getElementById("policy_custom").disabled = false;
+    } else {
+        document.getElementById("policy_time_start").disabled = true;
+        document.getElementById("policy_time_end").disabled = true;
+        document.getElementById("policy_date_start").disabled = true;
+        document.getElementById("policy_date_end").disabled = true;
+        document.getElementById("policy_daily").disabled = true;
+        document.getElementById("policy_custom").disabled = true;
+        document.getElementById("policy_time_start").value = "";
+        document.getElementById("policy_time_end").value = "";
+    }
+}
+
+function daily() {
+    document.getElementById("policy_custom").checked = false;
+    document.getElementById("policy_custom_area_1").style.display = 'none';
+    document.getElementById("policy_custom_area_2").style.display = 'none';
+    document.getElementById("policy_custom_area_3").style.display = 'none';
+    document.getElementById("sunday").checked = false;
+    document.getElementById("monday").checked = false;
+    document.getElementById("tuesday").checked = false;
+    document.getElementById("wednesday").checked = false;
+    document.getElementById("thursday").checked = false;
+    document.getElementById("friday").checked = false;
+    document.getElementById("saturday").checked = false;
+
+}
+
+function custom() {
+    if (document.getElementById("policy_custom").checked) {
+        document.getElementById("policy_daily").checked = false;
+        document.getElementById("policy_custom_area_1").style.display = 'table-row';
+        document.getElementById("policy_custom_area_2").style.display = 'table-row';
+        document.getElementById("policy_custom_area_3").style.display = 'table-row';
+    }
+    else {
+        document.getElementById("policy_custom_area_1").style.display = 'none';
+        document.getElementById("policy_custom_area_2").style.display = 'none';
+        document.getElementById("policy_custom_area_3").style.display = 'none';
+        document.getElementById("sunday").checked = false;
+        document.getElementById("monday").checked = false;
+        document.getElementById("tuesday").checked = false;
+        document.getElementById("wednesday").checked = false;
+        document.getElementById("thursday").checked = false;
+        document.getElementById("friday").checked = false;
+        document.getElementById("saturday").checked = false;
+    }
+}

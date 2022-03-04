@@ -9,33 +9,34 @@
 
 <body style="margin:4px;padding:4px">
     This page allows you to make changes to the fields automatically pulled from logs.
-    <br/>If you'd like to upload a file with IPs, subnets, users/groups, and zones, you can upload a YAML file. Please follow the format:
-    <br/>
-        <code>
+    <br />If you'd like to upload a file with IPs, subnets, users/groups, and zones, you can upload a YAML file. Please
+    follow the format:
+    <br />
+    <code>
         ---
         <br/>ad_groups: one,two,three
         <br/>ad_names: natzberg,sandeepr,tvmeter
         <br/>subnets: 192.15.12.0/24,192.15.13.0/24,192.15.14.0/24
         <br/>zones: it,bus,corp
         </code>
-    <br/>Please note that uploading a file with the same name will overwrite the old one.
+    <br />Please note that uploading a file with the same name will overwrite the old one.
     <hr />
 
     Upload new file
     <form method=post enctype='multipart/form-data'>
-      <input type=file name=file>
-      <input type=submit value=Upload>
+        <input type=file name=file>
+        <input type=submit value=Upload>
     </form>
 
     File in use
-    <br/>
+    <br />
     {% if file %}
     <code>
         {{ file }}
     </code>
     {% endif %}
 
-    <hr/>
+    <hr />
     <input type="checkbox" id="recommended" value="recommended" onchange="useRecommended()">
     <label for="recommended">Use recommended values?</label>
 
@@ -201,6 +202,107 @@
                 </td>
                 <td>
                     <input name="rule_name" type="text" placeholder="ZTN_ELK_RULE_12345">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="yes_policy_time">Add Policy Schedule?</label>
+                </td>
+                <td>
+                    <input type="checkbox" id="yes_policy_time" value="yes_policy_time" onchange="timeBased()">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="policy_schedule_name">Policy Schedule Name</label>
+                </td>
+                <td>
+                    <input type="text" name="policy_schedule_name" placeholder="ZTN_ELK_SCHEDULE_12345" disabled>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="policy_daily">Daily</label>
+                </td>
+                <td>
+                    <input type="checkbox" name="policy_daily" id="policy_daily" value="policy_daily_true" disabled
+                        onchange="daily()">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="policy_custom">Custom days</label>
+                </td>
+                <td>
+                    <input type="checkbox" name="policy_custom" id="policy_custom" value="policy_custom_true" disabled
+                        onchange="custom()">
+                </td>
+            </tr>
+            <tr style="display:none" id="policy_custom_area_1">
+                <td>
+                    Days:
+                </td>
+                <td>
+                    <input type="checkbox" name="sunday" id="sunday">
+                    <label for="sunday">Sunday</label>
+                    <br />
+                    <input type="checkbox" name="monday" id="monday">
+                    <label for="monday">Monday</label>
+                </td>
+            </tr>
+            <tr style="display:none" id="policy_custom_area_2">
+                <td></td>
+                <td>
+                    <input type="checkbox" name="tuesday" id="tuesday">
+                    <label for="tuesday">Tuesday</label>
+                    <br />
+                    <input type="checkbox" name="wednesday" id="wednesday">
+                    <label for="wednesday">Wednesday</label>
+                </td>
+            </tr>
+            <tr style="display:none" id="policy_custom_area_3">
+                <td></td>
+                <td>
+                    <input type="checkbox" name="thursday" id="thursday">
+                    <label for="thursday">Thursday</label>
+                    <br />
+                    <input type="checkbox" name="friday" id="friday">
+                    <label for="friday">Friday</label>
+                    <br />
+                    <input type="checkbox" name="saturday" id="saturday">
+                    <label for="saturday">Saturday</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="policy_time_start">Policy Start Time</label>
+                </td>
+                <td>
+                    <input type="time" id="policy_time_start" name="policy_time_start" disabled>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="policy_time_start">Policy End Time</label>
+                </td>
+                <td>
+                    <input type="time" id="policy_time_end" name="policy_time_end" disabled>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="policy_date_start">Policy Start Date</label>
+                </td>
+                <td>
+                    <input type="date" id="policy_date_start" name="policy_date_start" disabled>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="policy_date_start">Policy End Date</label>
+                </td>
+                <td>
+                    <input type="date" id="policy_date_end" name="policy_date_end" disabled>
                 </td>
             </tr>
         </table>

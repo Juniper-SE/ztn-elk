@@ -1,3 +1,5 @@
 virtualenv/
 *.pyc
 *.log
+esdata/
+*.swp

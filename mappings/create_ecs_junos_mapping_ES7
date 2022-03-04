@@ -2,7 +2,7 @@
 # Based on Elastic Common Schema
 # Reference: https://github.com/elastic/ecs
 
-curl -XPUT localhost:9200/junos-syslog-5 -H 'Content-Type: application/json' -d '
+curl -XPUT localhost:9200/junos-syslog -H 'Content-Type: application/json' -d '
 {
 	"mappings": {
 		"properties": {
