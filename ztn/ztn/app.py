@@ -324,8 +324,20 @@ def submit_enriched_form():
         policy_schedule_id, policy_schedule_status_code = ztn_elk.check_scheduler_exists(form['policy_schedule_name'])
 
         if policy_schedule_status_code < 400:
-            create_policy_schedule_status, policy_schedule_id = ztn_elk.create_scheduler(
-                schedulername=form['policy_schedule_name'])
+            selected_days = []
+            if form['policy_daily']:
+                selected_days = ['DAILY']
+            elif form['policy_custom']:
+                weekdays = [ "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY","SATURDAY" ]
+
+                # Gets the selected days, add to an array
+                for day in weekdays:
+                    if form[day.lower()]:
+                        selected_days.append(day)
+
+            create_policy_schedule_status, policy_schedule_id = ztn_elk.create_scheduler(form['policy_schedule_name'], selected_days=selected_days, start_time=form['policy_time_start'],end_time=form['policy_time_end'], start_date=form['policy_date_start'], end_date=form['policy_date_end'])
+
+            return 'break for policy schedule test'
 
             if create_policy_schedule_status == 200:
                 logging.info(

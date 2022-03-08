@@ -478,7 +478,7 @@ class ZTN_ELK_Server():
         return None
 
     # Create a policy scheduler and return its id + string
-    def create_scheduler(self, **kwargs):
+    def create_scheduler(self, name, **kwargs):
         """
         Create a policy scheduler
 
@@ -489,6 +489,19 @@ class ZTN_ELK_Server():
         if scheduler_name is None or scheduler_name == "":
             scheduler_name = "ZTN_ELK_SCHEDULER_" + str(uuid.uuid4().fields[-1])[:5]
 
+        selected_days = kwargs.get("selected_days", [])
+        start_time = kwargs.get("start_time", "")
+        end_time = kwargs.get("end_time", "")
+        start_date = kwargs.get("start_date", "")
+        end_date = kwargs.get("end_date", "")
+
+        print(selected_days)
+        print(start_time)
+        print(end_time)
+        print(start_date)
+        print(end_date)
+        return 0,0
+
         url = self.root_url + sd_scheduler_uri
 
         headers = {
@@ -497,42 +510,31 @@ class ZTN_ELK_Server():
             'Content-Type': 'application/vnd.juniper.sd.scheduler-management.scheduler+json;version=1;charset=UTF-8'
         }
 
-        payload = json.dumps({
-            "scheduler": {
-                "name": scheduler_name,
-                "description": "Scheduler created using ZTN_ELK",
-                ""
-            }
+        # payload = json.dumps({
+        # {
+        #     "scheduler" : {
+        #     "name" : scheduler_name,
+        #     "description" : "Scheduler created using ZTN_ELK",
+        #     "start-date1" : start_date,
+        #     "stop-date1" : end_date,
+        #     "start-date2" : "",
+        #     "stop-date2" : "",
+        #     "schedules" : {
+        #     "schedule" : [ {
+        #     "day" : selected_days,
+        #     "start-time1" : start_time,
+        #     "stop-time1" : end_time,
+        #     "start-time2" : "",
+        #     "stop-time2" : "",
+        #     "exclude" : False,
+        #     "all-day" : False
+        #     } ]
+        #     },
+        #     }
+        #  })
 
-                        {
-            "scheduler" : {
-            "name" : "String",
-            "description" : "String",
-            "start-date1" : "String",
-            "stop-date1" : "String",
-            "start-date2" : "String",
-            "stop-date2" : "String",
-            "schedules" : {
-            "schedule" : [ {
-            "day" : [ "DAILY", "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY",
-            "SATURDAY" ],
-            "start-time1" : "String",
-            "stop-time1" : "String",
-            "start-time2" : "String",
-            "stop-time2" : "String",
-            "exclude" : "Boolean",
-            "all-day" : "Boolean"
-            } ]
-            },
-            "edit-version" : "Integer",
-            "definition-type" : [ "Hidden", "Predefined", "Custom", "All" ],
-            "id" : "Integer"
-            }
-            }
-
-
-        })
         req = requests.Request('POST', url, headers=headers, data=payload)
         prepped = self.session.prepare_request(req)
         response = self.session.send(prepped)
-        return
+        # policy_id = json.loads(response.text)['policy']['id']
+        return response.text

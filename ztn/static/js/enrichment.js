@@ -89,6 +89,13 @@ function timeBased() {
 }
 
 function daily() {
+    if (!document.getElementById("policy_daily").checked) {
+        document.getElementById("policy_schedule_name").disabled = true;
+        document.getElementById("policy_schedule_name").value = "";
+    } else {
+        document.getElementById("policy_schedule_name").disabled = false;
+    }
+
     document.getElementById("policy_custom").checked = false;
     document.getElementById("policy_custom_area_1").style.display = 'none';
     document.getElementById("policy_custom_area_2").style.display = 'none';
@@ -105,12 +112,14 @@ function daily() {
 
 function custom() {
     if (document.getElementById("policy_custom").checked) {
+        document.getElementById("policy_schedule_name").disabled = false;
         document.getElementById("policy_daily").checked = false;
         document.getElementById("policy_custom_area_1").style.display = 'table-row';
         document.getElementById("policy_custom_area_2").style.display = 'table-row';
         document.getElementById("policy_custom_area_3").style.display = 'table-row';
     }
     else {
+        document.getElementById("policy_schedule_name").disabled = true;
         document.getElementById("policy_custom_area_1").style.display = 'none';
         document.getElementById("policy_custom_area_2").style.display = 'none';
         document.getElementById("policy_custom_area_3").style.display = 'none';
