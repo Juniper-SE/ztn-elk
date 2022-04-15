@@ -1,3 +1,7 @@
 Name: Zippy
 Project URL: https://github.com/dpresbit/zippy
 License: GNU General Public License v3.0
+
+Name: ELK
+Project URL: https://github.com/deviantony/docker-elk
+License: MIT License
