@@ -1,3 +1,15 @@
+// Copyright (c) Juniper Networks, Inc., 2020 - 2022. All rights reserved.
+
+// Notice and Disclaimer: This code is licensed to you under the GNU General Public License v3.0.
+// You may not use this code except in compliance with the License.
+// This code is not an official Juniper product.
+// You can obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.txt
+
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+// Third-Party Code: This code may depend on other components under separate copyright notice and license terms.
+// Your use of the source code for those components is subject to the terms and conditions of the respective license as noted in the Third-Party source code file.
+
 function onChangeSrcAddr() {
     var selectBox = document.getElementById("sourceaddr")
 
@@ -70,6 +82,7 @@ function timeBased() {
     var isChecked = document.getElementById("yes_policy_time").checked;
 
     if (isChecked) {
+        document.getElementById("policy_schedule_name").disabled = false;
         document.getElementById("policy_time_start").disabled = false;
         document.getElementById("policy_time_end").disabled = false;
         document.getElementById("policy_date_start").disabled = false;
@@ -77,6 +90,7 @@ function timeBased() {
         document.getElementById("policy_daily").disabled = false;
         document.getElementById("policy_custom").disabled = false;
     } else {
+        document.getElementById("policy_schedule_name").disabled = true;
         document.getElementById("policy_time_start").disabled = true;
         document.getElementById("policy_time_end").disabled = true;
         document.getElementById("policy_date_start").disabled = true;
@@ -89,13 +103,6 @@ function timeBased() {
 }
 
 function daily() {
-    if (!document.getElementById("policy_daily").checked) {
-        document.getElementById("policy_schedule_name").disabled = true;
-        document.getElementById("policy_schedule_name").value = "";
-    } else {
-        document.getElementById("policy_schedule_name").disabled = false;
-    }
-
     document.getElementById("policy_custom").checked = false;
     document.getElementById("policy_custom_area_1").style.display = 'none';
     document.getElementById("policy_custom_area_2").style.display = 'none';
@@ -112,14 +119,12 @@ function daily() {
 
 function custom() {
     if (document.getElementById("policy_custom").checked) {
-        document.getElementById("policy_schedule_name").disabled = false;
         document.getElementById("policy_daily").checked = false;
         document.getElementById("policy_custom_area_1").style.display = 'table-row';
         document.getElementById("policy_custom_area_2").style.display = 'table-row';
         document.getElementById("policy_custom_area_3").style.display = 'table-row';
     }
     else {
-        document.getElementById("policy_schedule_name").disabled = true;
         document.getElementById("policy_custom_area_1").style.display = 'none';
         document.getElementById("policy_custom_area_2").style.display = 'none';
         document.getElementById("policy_custom_area_3").style.display = 'none';

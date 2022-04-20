@@ -1,3 +1,14 @@
+# Copyright (c) Juniper Networks, Inc., 2020 - 2022. All rights reserved.
+
+# Notice and Disclaimer: This code is licensed to you under the GNU General Public License v3.0.
+# You may not use this code except in compliance with the License.
+# This code is not an official Juniper product.
+# You can obtain a copy of the License at https://www.gnu.org/licenses/gpl-3.0.txt
+
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Third-Party Code: This code may depend on other components under separate copyright notice and license terms. Your use of the source code for those components is subject to the terms and conditions of the respective license as noted in the Third-Party source code file.
+
 from flask import Flask, request, render_template, send_from_directory
 from ztn_elk import ZTN_ELK_Server
 from ztn_graph import ZTN_Graph
@@ -10,7 +21,7 @@ from werkzeug.utils import secure_filename
 from elasticsearch import Elasticsearch
 import pandasticsearch as pds
 import pandas as pd
-
+import csv
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'yaml'}
@@ -404,14 +415,27 @@ def submit_enriched_form():
     return render_template("policy_submitted.html", sd_url=ztn_elk.root_url)
 
 @app.route('/graph/')
-def test():
+def graph():
     es = Elasticsearch('http://10.192.16.248:9200')
     # es_result = es.search(index="junos-syslog", query={"match_all": {}})
-    results = elasticsearch.helpers.scan(es, query={"query": {"match_all": {}}}, index="junos-syslog")
-    df = pd.DataFrame.from_dict([document['_source'] for document in results])
+    # results = elasticsearch.helpers.scan(es, query={"query": {"match_all": {}}}, index="junos-syslog")
+    # df = pd.DataFrame.from_dict([document['_source'] for document in results])
 
-    pandas_df = pds.Select.from_dict(es_result).to_pandas()
-    pandas_df.print_schema()
+    # pandas_df = pds.Select.from_dict(es_result).to_pandas()
+    # pandas_df.print_schema()
+
+    res = es.search(index="junos-syslog", query={"match_all": {}}, size=10000)
+    with open('mycsvfile.csv', 'w') as f:  # Just use 'w' mode in 3.x
+        header_present  = False
+        for doc in res['hits']['hits']:
+            my_dict = doc['_source']
+            if not header_present:
+                w = csv.DictWriter(f, my_dict.keys())
+                w.writeheader()
+                header_present = True
+
+
+            w.writerow(my_dict)
 
     return 'yeah'
 
