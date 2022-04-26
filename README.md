@@ -11,11 +11,7 @@ The Build: The ELK docker "stack" consists of 3 images with the following image 
 
 ## DEPENDENCIES:
 
-** Linux Deps listed below, and instructions, can be found in the installdeps directory
-
-Note:
-1. Use installdeps if installing offline
-2. Use requirements if installing online
+** Linux Deps listed below and instructions
 
 - PIP Installer
     - pip for istalling python packages
